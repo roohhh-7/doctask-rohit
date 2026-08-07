@@ -23,3 +23,5 @@ This document serves as the running audit log of assumptions made, technical tra
 - **2026-08-07 17:35**: Executed Task 1 Growth Machine with verified double runs (`synthetic_batch_1_run_log.json` and `synthetic_batch_2_run_log.json`).
 - **2026-08-07 17:37**: Completed Task 2 practitioner pack, Task 3 researched enterprise use cases, and Task 4 demo scripts & submission answers.
 - **2026-08-07 20:56**: Connected remote origin and successfully pushed all 43 files to `https://github.com/roohhh-7/doctask-rohit.git` on `main`.
+- **2026-08-08 04:45**: Refactored Task 1 campaign to progressive, problem-first milestone outreach (`Cold_Email_Sequence.md`, `Landing_Page_Spec.md`) respecting researcher data privacy and product boundaries.
+- **2026-08-08 04:50**: Re-ran Batch 1 and Batch 2 with updated synthesis engine (100% QA pass rate); verified all rails, cross-checked entire task document from Page 1 to Page 6, and synced all commits to GitHub.
