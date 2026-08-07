@@ -1,41 +1,37 @@
-# Task 1: Respectful Milestone-Triggered Outbound Campaign
+# Task 1: Progressive Signal-Based Outbound Campaign
 
-> **Campaign Philosophy**: *Respect the researcher.* Never scrape private documents or pretend to have edited their unreleased work without consent. Celebrate public milestones (arXiv papers, NIH grant awards, technical RFCs) and offer a free, pre-formatted multi-section proposal template kit with private in-document diff review.
+> **Campaign Philosophy**: *Start with the shared pain, not a sales pitch.* Don't force unnecessary templates or pretend to edit private papers. Open by acknowledging their work, highlighting the universal friction of editing existing 30+ page technical documents with standard chat AI, and introducing SuperDocs as "Cursor for documents."
 
 ---
 
-## 📧 The 3-Step Outbound Sequence
+## 📧 The 3-Touch Progressive Outbound Sequence
 
-### Email 1: The Milestone Celebration & Template Gift (Day 1)
-**Subject**: [Paper/Grant Title] & multi-author proposal drafting  
+### Email 1: The Problem Introduction & Relatable Friction (Day 1)
+**Subject**: Editing 30+ page technical docs at {{company_name}}  
 **From**: Rohit <rohit@superdocs.app>  
 **To**: {{lead_role}} at {{company_name}}
 
 ```text
 Hi {{lead_name}},
 
-Congratulations on the recent release of "{{public_milestone_title}}"! Tracking your team's progress with {{tech_stack_highlight}} has been impressive.
+Saw {{company_name}}'s recent work on {{tech_stack_highlight}}—really impressive technical scope.
 
-When expanding technical breakthroughs into 50+ page grant proposals, follow-up RFCs, or commercialization packs, keeping 20+ sections, parameter tables, and citations in sync across multiple co-authors in Word or Google Docs quickly becomes a major headache.
+Quick question: when your team needs to revise existing 30+ page proposals, reports, or technical specifications across multiple sections, how do you handle AI editing today?
 
-We built a free, pre-formatted Proposal & Manuscript Template Kit in SuperDocs (think "Cursor for documents"):
-- Section-Precision Editing: Update parameters (e.g. compute budgets or dataset sizes) across multiple sections in one prompt without rewriting the whole document.
-- In-Document Red/Green Diff Review: See every change highlighted directly on the page before accepting.
-- Strict Privacy: Zero model training on your text, private isolated workspaces, and 100% US-hosted infrastructure.
+Most engineering and research leads we talk to hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word or Google Docs—which breaks tables and corrupts citations.
 
-Here is a 1-click sandbox link pre-loaded with a sample technical proposal to test the diff editor:
-👉 https://use.superdocs.app/sandbox/research-proposal-kit
+We built SuperDocs to close that loop (think "Cursor for documents"): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.
 
-No sales call or credit card required. Hope this saves your team hours on the next drafting cycle!
+Curious if this is a friction point your team experiences during documentation cycles?
 
-Best regards,  
+Best,  
 Rohit  
 Growth Engineer | SuperDocs
 ```
 
 ---
 
-### Email 2: The "Cursor for Documents" Walkthrough (Day 4)
+### Email 2: The Product Demonstration (Day 4)
 **Subject**: In-document diffs vs. copy-pasting into ChatGPT  
 **From**: Rohit <rohit@superdocs.app>  
 **To**: {{lead_role}} at {{company_name}}
@@ -43,21 +39,19 @@ Growth Engineer | SuperDocs
 ```text
 Hi {{lead_name}},
 
-Quick follow-up on the proposal template kit. 
+Following up on my note about document editing workflows. 
 
-The biggest reason researchers switch from ChatGPT/Claude to SuperDocs during proposal deadlines comes down to one friction point: closing the loop.
+Here is how SuperDocs works when editing an existing technical document:
+1. Drop in your actual `.docx`, `.md`, or `.tex` draft.
+2. Press Cmd+K and prompt: "Update Section 2 benchmarks to match our latest tests, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7."
+3. SuperDocs edits all three sections simultaneously, highlighting exact green additions and red deletions directly on the page.
 
-With a standard chat window, you have to copy messy text out, prompt the AI, and manually paste the results back across 10 different pages in Word, hoping formatting doesn't break.
+You review the diff and click "Accept All" in 1 click. No text copying, no broken styles.
 
-With SuperDocs:
-1. You highlight the relevant sections or press Cmd+K directly in your document.
-2. Prompt: "Recalculate Section 5 compute timeline and adjust the GPU budget table in Section 7 while preserving NIH citation tags."
-3. SuperDocs edits both sections in-place, showing exact green additions and red deletions for you to accept in 1 click.
-
-Here is a 15-second visual demo of how the in-document diff engine works:
+Here is a 15-second visual demo of the diff editor in action:
 👉 https://use.superdocs.app/demo/diff-engine
 
-Let me know if you’d like a private team workspace configured for {{company_name}}'s next grant deadline.
+(Strict Privacy: Zero AI model training on user text, isolated private workspaces, US-hosted).
 
 Best,  
 Rohit
@@ -65,21 +59,21 @@ Rohit
 
 ---
 
-### Email 3: The Frictionless Offer & Clean Break (Day 8)
-**Subject**: SuperDocs team workspace for {{company_name}}  
+### Email 3: The Frictionless Trial & Clean Break (Day 8)
+**Subject**: SuperDocs sandbox for {{company_name}}  
 **From**: Rohit <rohit@superdocs.app>  
 **To**: {{lead_role}} at {{company_name}}
 
 ```text
 Hi {{lead_name}},
 
-I know you and the team at {{company_name}} are heads-down building. 
+I know you and the team are busy building, so I won't clutter your inbox further.
 
-I won't clutter your inbox further. If your lab ever wants a dedicated SuperDocs team space with multi-document sessions, lossless LaTeX/Word round-tripping, and isolated private storage for upcoming grant deadlines:
+If you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link (zero signup or credit card required):
 
-👉 Claim your team workspace: https://use.superdocs.app/teams/claim?org={{company_slug}}
+👉 https://use.superdocs.app/sandbox
 
-Wishing you and the lab huge success with {{public_milestone_title}}!
+Wishing you and the team at {{company_name}} continued success!
 
 Cheers,  
 Rohit  
