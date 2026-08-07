@@ -1,0 +1,103 @@
+{
+  "batch_name": "synthetic_batch_2",
+  "timestamp": "2026-08-07T12:04:40.650361+00:00",
+  "total_records_processed": 5,
+  "records_passed_gate": 5,
+  "records_failed_gate": 0,
+  "pass_rate_percent": 100.0,
+  "avg_latency_per_record_ms": 0.59,
+  "total_simulated_tokens": 10642,
+  "estimated_total_cost_usd": 0.0745,
+  "records": [
+    {
+      "target_id": "SYNTH-B2-001",
+      "organization_name": "Foundry Quantum",
+      "recipient_role": "Principal Quantum Systems Architect",
+      "synthetic_inbox": "arch-synth-06@internal-test-sink.local",
+      "status": "PASSED_GATE",
+      "quality_score": 100.0,
+      "score_breakdown": {
+        "technical_specificity": 25.0,
+        "taste_and_tone": 25.0,
+        "rails_compliance": 25.0,
+        "syntax_integrity": 25.0
+      },
+      "simulated_tokens": 2134,
+      "estimated_cost_usd": 0.01493,
+      "latency_ms": 0.0,
+      "produced_asset_file": "SYNTH-B2-001_Foundry_Quantum_Audit.md"
+    },
+    {
+      "target_id": "SYNTH-B2-002",
+      "organization_name": "Helios Energy Compute",
+      "recipient_role": "Head of Grid Modeling & Proposals",
+      "synthetic_inbox": "grid-synth-07@internal-test-sink.local",
+      "status": "PASSED_GATE",
+      "quality_score": 100.0,
+      "score_breakdown": {
+        "technical_specificity": 25.0,
+        "taste_and_tone": 25.0,
+        "rails_compliance": 25.0,
+        "syntax_integrity": 25.0
+      },
+      "simulated_tokens": 2158,
+      "estimated_cost_usd": 0.0151,
+      "latency_ms": 0.0,
+      "produced_asset_file": "SYNTH-B2-002_Helios_Energy_Compute_Audit.md"
+    },
+    {
+      "target_id": "SYNTH-B2-003",
+      "organization_name": "Axiom Security Systems",
+      "recipient_role": "Director of AI Governance & Assurance",
+      "synthetic_inbox": "gov-synth-08@internal-test-sink.local",
+      "status": "PASSED_GATE",
+      "quality_score": 100.0,
+      "score_breakdown": {
+        "technical_specificity": 25.0,
+        "taste_and_tone": 25.0,
+        "rails_compliance": 25.0,
+        "syntax_integrity": 25.0
+      },
+      "simulated_tokens": 2118,
+      "estimated_cost_usd": 0.01482,
+      "latency_ms": 1.0,
+      "produced_asset_file": "SYNTH-B2-003_Axiom_Security_Systems_Audit.md"
+    },
+    {
+      "target_id": "SYNTH-B2-004",
+      "organization_name": "Epistemic Technologies",
+      "recipient_role": "Head of Computational Biology",
+      "synthetic_inbox": "bio-synth-09@internal-test-sink.local",
+      "status": "PASSED_GATE",
+      "quality_score": 100.0,
+      "score_breakdown": {
+        "technical_specificity": 25.0,
+        "taste_and_tone": 25.0,
+        "rails_compliance": 25.0,
+        "syntax_integrity": 25.0
+      },
+      "simulated_tokens": 2098,
+      "estimated_cost_usd": 0.01468,
+      "latency_ms": 0.0,
+      "produced_asset_file": "SYNTH-B2-004_Epistemic_Technologies_Audit.md"
+    },
+    {
+      "target_id": "SYNTH-B2-005",
+      "organization_name": "Polymathic Labs",
+      "recipient_role": "Lead Research Fellow",
+      "synthetic_inbox": "fellow-synth-10@internal-test-sink.local",
+      "status": "PASSED_GATE",
+      "quality_score": 100.0,
+      "score_breakdown": {
+        "technical_specificity": 25.0,
+        "taste_and_tone": 25.0,
+        "rails_compliance": 25.0,
+        "syntax_integrity": 25.0
+      },
+      "simulated_tokens": 2134,
+      "estimated_cost_usd": 0.01493,
+      "latency_ms": 0.0,
+      "produced_asset_file": "SYNTH-B2-005_Polymathic_Labs_Audit.md"
+    }
+  ]
+}

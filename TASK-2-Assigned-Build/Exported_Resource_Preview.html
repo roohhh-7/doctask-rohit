@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pre-Submission Peer-Review & Manuscript Audit Dossier</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --heading: #f0f6fc;
+      --accent: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-warn: #d29922;
+      --code-bg: #090d13;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .header-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      color: var(--heading);
+      font-size: 2.2rem;
+      margin: 0 0 12px 0;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #8b949e;
+      margin-bottom: 24px;
+    }
+
+    .disclosure-banner {
+      background: rgba(63, 185, 80, 0.1);
+      border-left: 4px solid var(--accent-green);
+      padding: 14px 18px;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+      color: #e6edf3;
+    }
+
+    h2 {
+      color: var(--heading);
+      font-size: 1.4rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-top: 36px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--code-bg);
+      color: var(--heading);
+      font-weight: 600;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .badge-success { background: rgba(63, 185, 80, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .badge-warn { background: rgba(210, 153, 34, 0.2); color: var(--accent-warn); border: 1px solid var(--accent-warn); }
+
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--code-bg);
+      border-radius: 6px;
+    }
+
+    pre {
+      padding: 16px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      color: #79c0ff;
+    }
+
+    code {
+      padding: 2px 6px;
+      font-size: 0.9em;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
+
+    .checklist-item input {
+      margin-right: 12px;
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-tag">Practitioner Pre-Flight Audit Framework</div>
+    <h1>The Pre-Submission Peer-Review & Manuscript Audit Dossier</h1>
+    <div class="subtitle">A structured pre-flight verification system for high-stakes scientific & technical publications.</div>
+
+    <div class="disclosure-banner">
+      <strong>Affiliation Disclosure:</strong> Built by Rohit as a free open-source resource for researchers. Created using <strong>SuperDocs</strong> (in-document AI editing). Fully free to use, modify, and distribute without attribution.
+    </div>
+
+    <h2>1. Abstract & Title Claim Verification Matrix</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Abstract Claim Statement</th>
+          <th>Supporting Results Section</th>
+          <th>Statistical Evidence / Confidence</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"Improves binding affinity prediction AUC from 0.81 to 0.93"</td>
+          <td>Section 4.3 (Table 3)</td>
+          <td>p &lt; 0.0004 across 5 random seeds</td>
+          <td><span class="badge badge-success">VERIFIED</span></td>
+        </tr>
+        <tr>
+          <td>"Reduces inference latency by 45% on PDBbind benchmark"</td>
+          <td>Section 5.1 (Figure 4)</td>
+          <td>18.4 ms/complex vs 33.5 ms baseline</td>
+          <td><span class="badge badge-success">VERIFIED</span></td>
+        </tr>
+        <tr>
+          <td>"Zero performance degradation under out-of-distribution drift"</td>
+          <td>Section 4.6 (Table 6)</td>
+          <td>Ablation delta within 1.2% margin</td>
+          <td><span class="badge badge-warn">NEEDS RECHECK</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2. Cross-Section Consistency & Parameter Sync</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter Name</th>
+          <th>Abstract Reference</th>
+          <th>Methodology (Sec 3)</th>
+          <th>Experiments (Sec 4)</th>
+          <th>Appendix / Compute</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Latent Dimension ($d_z$)</strong></td>
+          <td>256</td>
+          <td>256</td>
+          <td>256</td>
+          <td>256</td>
+        </tr>
+        <tr>
+          <td><strong>Batch Size ($B$)</strong></td>
+          <td>64</td>
+          <td>64</td>
+          <td>64</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td><strong>Learning Rate ($\eta$)</strong></td>
+          <td>-</td>
+          <td>3 × 10⁻⁴</td>
+          <td>3 × 10⁻⁴</td>
+          <td>3 × 10⁻⁴</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. SuperDocs In-Document Sync Prompt</h2>
+    <pre><code><!-- SUPERDOCS TARGETED RECONCILIATION PROMPT -->
+@document-target: [Section 3.1 Experimental Setup, Section 4 Results, Section 6 Compute Budget]
+Instruction:
+Verify that all batch sizes, learning rates, sample counts (N), and compute cluster specs match.
+Apply targeted corrections directly in-place without altering surrounding LaTeX equations.</code></pre>
+
+    <h2>4. Pre-Flight Reviewer Defense Checklist</h2>
+    <div class="checklist-item"><input type="checkbox" checked> Methodological reproducibility & hardware seeds documented</div>
+    <div class="checklist-item"><input type="checkbox" checked> Error bars & standard deviations defined in all figure captions</div>
+    <div class="checklist-item"><input type="checkbox" checked> DOI links and Zenodo double-blind checkpoints verified</div>
+    <div class="checklist-item"><input type="checkbox" checked> Compute budget, hardware hours, and carbon impact table populated</div>
+  </div>
+</body>
+</html>

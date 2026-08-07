@@ -1,0 +1,20 @@
+{
+  "engine_name": "SuperDocs-Autonomous-Growth-Engine",
+  "version": "1.0.0",
+  "author": "Rohit",
+  "min_quality_score_threshold": 85.0,
+  "cost_per_1k_prompt_tokens_usd": 0.0025,
+  "cost_per_1k_completion_tokens_usd": 0.010,
+  "rails_enforcement": {
+    "zero_real_outbound": true,
+    "no_spreadsheet_output": true,
+    "no_live_web_scraping_in_editor": true,
+    "no_unearned_certifications": true
+  },
+  "asset_generation_parameters": {
+    "include_diff_preview": true,
+    "include_citation_graph_audit": true,
+    "include_superdocs_refactor_prompt": true,
+    "tone": "technical_peer_collaborator"
+  }
+}

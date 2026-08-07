@@ -1,0 +1,87 @@
+[
+  {
+    "target_id": "SYNTH-B1-001",
+    "organization_name": "Latent Space Bio",
+    "domain": "AI-Driven Protein Design & Wet-Lab Assays",
+    "active_document_type": "ARPA-H Multi-Site Research Milestone Proposal",
+    "document_page_count": 54,
+    "contributor_count": 6,
+    "current_primary_tool": "Google Docs + Overleaf + Claude Web",
+    "primary_technical_friction": "Experimental assay throughput in Section 4 drifts from compute cluster allocation in Section 7",
+    "recipient_role": "Lead Principal Investigator",
+    "synthetic_inbox": "pi-synth-01@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Diffusion-based antibody binder generator",
+      "eval_benchmark": "AlphaFold3 cross-docking rmsd < 2.0A",
+      "grant_amount_usd": 3200000
+    }
+  },
+  {
+    "target_id": "SYNTH-B1-002",
+    "organization_name": "Cortex Systems Group",
+    "domain": "Edge AI & Autonomous Drone Swarms",
+    "active_document_type": "SBIR Phase II Technical Specification & Architecture RFC",
+    "document_page_count": 42,
+    "contributor_count": 4,
+    "current_primary_tool": "Notion Markdown + ChatGPT Copy-Paste",
+    "primary_technical_friction": "MIL-STD safety requirements in Section 2 contradict latency budget tables in Section 5",
+    "recipient_role": "Director of Autonomous Systems",
+    "synthetic_inbox": "dir-synth-02@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Quantized ViT on Jetson Orin Nano",
+      "eval_benchmark": "Real-time edge obstacle avoidance latency < 12ms",
+      "grant_amount_usd": 1750000
+    }
+  },
+  {
+    "target_id": "SYNTH-B1-003",
+    "organization_name": "Synthea Dynamics",
+    "domain": "Synthetic Health Records & Differential Privacy",
+    "active_document_type": "FDA Technical Briefing & Clinical Protocol Dossier",
+    "document_page_count": 68,
+    "contributor_count": 8,
+    "current_primary_tool": "Microsoft Word + Claude Pro Web",
+    "primary_technical_friction": "Epsilon privacy budget equations in Section 3 break across multi-author revisions in Section 6",
+    "recipient_role": "VP of Regulatory & Statistical Science",
+    "synthetic_inbox": "vp-synth-03@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Differentially private tabular diffusion",
+      "eval_benchmark": "Statistical fidelity Wasserstein-1 distance < 0.05",
+      "grant_amount_usd": 4500000
+    }
+  },
+  {
+    "target_id": "SYNTH-B1-004",
+    "organization_name": "Vectorial AI Labs",
+    "domain": "Enterprise LLM Alignment & Domain Fine-Tuning",
+    "active_document_type": "40-Page Bespoke Client Architecture Audit & Safety RFC",
+    "document_page_count": 38,
+    "contributor_count": 3,
+    "current_primary_tool": "Google Docs + Cursor for code only",
+    "primary_technical_friction": "LLM benchmark comparisons in Section 3 lose markdown table formatting when revised via LLM chat",
+    "recipient_role": "Managing Technical Partner",
+    "synthetic_inbox": "partner-synth-04@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "MoE 8x7B Fine-Tuned Financial Reasoning",
+      "eval_benchmark": "FinQA exact match accuracy > 84.5%",
+      "grant_amount_usd": 950000
+    }
+  },
+  {
+    "target_id": "SYNTH-B1-005",
+    "organization_name": "NeuroPath Research",
+    "domain": "Neural Signal Decoding & Brain-Computer Interfaces",
+    "active_document_type": "DARPA Sub-Tier Collaborative Milestone Report",
+    "document_page_count": 61,
+    "contributor_count": 7,
+    "current_primary_tool": "Overleaf LaTeX + Manual Chatbot Triaging",
+    "primary_technical_friction": "Signal filter cutoff frequency references conflict between mathematical derivations and hardware schematics",
+    "recipient_role": "Chief Scientific Officer",
+    "synthetic_inbox": "cso-synth-05@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Spike-sorting transformer on FPGA",
+      "eval_benchmark": "Closed-loop motor decoding latency < 5ms",
+      "grant_amount_usd": 2800000
+    }
+  }
+]

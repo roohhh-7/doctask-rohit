@@ -1,0 +1,20 @@
+# Task 3: 10 Real Use Cases & Product-Market Fit Evaluation
+
+> **Evaluation Metric**: *Finding real buyers where document editing friction is severe, not merely listing broad industries. Honest negative fit assessments score just as highly as positive ones.*
+
+---
+
+## Master Use Case Portfolio & Fit Analysis
+
+| # | Use Case Title | Core Document Artifact | Target Organization Type | Fit Rating | Fit Rationale |
+|---|---|---|---|---|---|
+| **1** | **Federal & Defense RFP Technical Responses** | 80–150 page Government RFP compliance matrices and technical volumes. | Defense / GovTech Contractors (e.g. Booz Allen, CACI, Leidos) | **⭐⭐⭐⭐⭐ High Fit** | Massive cross-referencing between compliance requirements and technical architecture; tight submission deadlines. |
+| **2** | **Clinical Trial Protocols & Regulatory Briefs** | FDA IND/NDA dossiers, investigator brochures, and safety protocols. | Clinical Research Orgs (CROs) & Biotech (e.g. Medpace, ICON, Parexel) | **⭐⭐⭐⭐⭐ High Fit** | Dense statistical methodology, protocol amendments requiring simultaneous multi-section edits across 100+ pages. |
+| **3** | **Commercial Strategy & Due Diligence Memoranda** | 40–80 page M&A commercial diligence memos and investment committee packs. | Strategy Consultancies & Private Equity (e.g. Bain, L.E.K., Parthenon) | **⭐⭐⭐⭐⭐ High Fit** | Multi-consultant collaboration; frequent target data revisions that must update executive summary and sector chapters in-place. |
+| **4** | **Enterprise Security & SOC-2 / ISO Policies** | Information security policy packs, vendor risk assessments, compliance frameworks. | Cloud Security & Compliance Platforms (e.g. Vanta, Drata, Wiz) | **⭐⭐⭐⭐⭐ High Fit** | Rigid section structures that require recurring parameter updates (e.g. updating cloud providers or encryption ciphers across 25 policies). |
+| **5** | **Architecture & Engineering Handover Packs** | Project closeout binders, LEED sustainability specs, subcontractor handover packs. | Large AEC Firms (e.g. Gensler, AECOM, HOK) | **⭐⭐⭐⭐⭐ High Fit** | Multi-disciplinary specification documents where engineering changes must propagate across architectural narratives and fixture schedules. |
+| **6** | **Scientific Grants & Peer-Reviewed Manuscripts** | NSF/NIH grant applications, DARPA milestone reports, journal submissions. | Applied AI & Bio Research Labs (e.g. Broad Institute, Allen Institute) | **⭐⭐⭐⭐⭐ High Fit** | Extreme citation sensitivity and mathematical formula preservation across multi-author drafts. |
+| **7** | **Executive Search Confidential Candidate Dossiers** | 20–35 page C-suite executive assessment packs and board briefing books. | Executive Search & Advisory Firms (e.g. Spencer Stuart, Heidrick, Egon Zehnder) | **⭐⭐⭐⭐ High Fit** | Highly structured biographical and competency writeups that require fast iterative refinement from interview transcripts. |
+| **8** | **Software Architecture RFCs & API Migration Packs** | System architecture decision records (ADRs) and enterprise migration guides. | Scale-up Engineering Organizations (e.g. Datadog, Stripe, Palantir) | **⭐⭐⭐⭐ High Fit** | Code snippets and architectural markdown that break in standard rich-text editors; developers prefer Cursor-like document editing. |
+| **9** | **Live Collaborative Financial Modeling & Spreadsheets** | Real-time multi-analyst financial projections and cash-flow models. | Investment Banks & Corporate FP&A | **❌ POOR FIT (Rail Boundary)** | **Rail Violation**: SuperDocs is an in-document text/markdown editor, not a spreadsheet recalculation engine. Financial modeling belongs in Excel/Causal. |
+| **10** | **Live Multi-Cursor Real-Time Brainstorming** | Casual sticky-note brainstorming and unstructured whiteboard ideation. | Creative Agencies & Remote Design Teams | **❌ POOR FIT (Rail Boundary)** | **Rail Violation**: SuperDocs does not build live multiplayer with visible cursors or canvas whiteboard UX. Miro/Figma Jam/Google Docs serve this; SuperDocs focuses on deep structured document editing. |

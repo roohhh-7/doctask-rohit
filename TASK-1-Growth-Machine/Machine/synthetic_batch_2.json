@@ -1,0 +1,87 @@
+[
+  {
+    "target_id": "SYNTH-B2-001",
+    "organization_name": "Foundry Quantum",
+    "domain": "Quantum Circuit Compilation & Fault-Tolerant Simulation",
+    "active_document_type": "DOE Quantum Information Science Milestone Dossier",
+    "document_page_count": 48,
+    "contributor_count": 5,
+    "current_primary_tool": "LaTeX Overleaf + Claude Web",
+    "primary_technical_friction": "Qubit coherence error budgeting in Section 3 loses LaTeX syntax when updated via web LLM chats",
+    "recipient_role": "Principal Quantum Systems Architect",
+    "synthetic_inbox": "arch-synth-06@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Surface code lattice surgery compiler",
+      "eval_benchmark": "Logical error rate reduction > 10x over physical",
+      "grant_amount_usd": 3800000
+    }
+  },
+  {
+    "target_id": "SYNTH-B2-002",
+    "organization_name": "Helios Energy Compute",
+    "domain": "Grid-Scale Power Flow Optimization via Physics-Informed ML",
+    "active_document_type": "110-Page Commercial Utility RFP Technical Response",
+    "document_page_count": 112,
+    "contributor_count": 9,
+    "current_primary_tool": "Google Docs + ChatGPT Team",
+    "primary_technical_friction": "N-1 transmission contingency specifications in Section 2 contradict generation dispatch tables in Section 8",
+    "recipient_role": "Head of Grid Modeling & Proposals",
+    "synthetic_inbox": "grid-synth-07@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Graph neural network for AC power flow",
+      "eval_benchmark": "Convergence time < 100ms on 10,000-bus networks",
+      "grant_amount_usd": 5100000
+    }
+  },
+  {
+    "target_id": "SYNTH-B2-003",
+    "organization_name": "Axiom Security Systems",
+    "domain": "Automated Formal Verification & AI Safety Audits",
+    "active_document_type": "ISO/IEC 42001 AI Risk Management & Governance Pack",
+    "document_page_count": 56,
+    "contributor_count": 4,
+    "current_primary_tool": "Notion + Manual Export to PDF",
+    "primary_technical_friction": "Risk mitigation controls in Section 4 drift from automated test coverage logs in Section 6",
+    "recipient_role": "Director of AI Governance & Assurance",
+    "synthetic_inbox": "gov-synth-08@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "SMT-based neural network verifier",
+      "eval_benchmark": "Provable robustness bound epsilon = 0.03",
+      "grant_amount_usd": 1200000
+    }
+  },
+  {
+    "target_id": "SYNTH-B2-004",
+    "organization_name": "Epistemic Technologies",
+    "domain": "Automated Biomedical Literature Synthesis & Target Discovery",
+    "active_document_type": "Systematic Review Protocol & Target Validation Whitepaper",
+    "document_page_count": 35,
+    "contributor_count": 3,
+    "current_primary_tool": "Google Docs + Claude Web Chat",
+    "primary_technical_friction": "Over 140 PubMed bibliography entries lose citation anchor tags when re-summarized in chat windows",
+    "recipient_role": "Head of Computational Biology",
+    "synthetic_inbox": "bio-synth-09@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Biomedical knowledge graph reasoning engine",
+      "eval_benchmark": "Target-disease association precision@10 > 0.88",
+      "grant_amount_usd": 850000
+    }
+  },
+  {
+    "target_id": "SYNTH-B2-005",
+    "organization_name": "Polymathic Labs",
+    "domain": "Physics-Informed Deep Learning for Aerodynamic Design",
+    "active_document_type": "NSF Multidisciplinary Engineering Research Proposal",
+    "document_page_count": 45,
+    "contributor_count": 5,
+    "current_primary_tool": "Overleaf + ChatGPT Plus",
+    "primary_technical_friction": "Navier-Stokes boundary condition equations in Section 3 diverge from validation mesh tables in Section 5",
+    "recipient_role": "Lead Research Fellow",
+    "synthetic_inbox": "fellow-synth-10@internal-test-sink.local",
+    "core_parameters": {
+      "model_type": "Fourier neural operator for turbulent flow",
+      "eval_benchmark": "L2 relative error < 1.5% at Mach 0.85",
+      "grant_amount_usd": 2100000
+    }
+  }
+]
