@@ -17,7 +17,7 @@ I built a complete, repeatable growth engineering architecture tailored to the e
 
 ## 2. Key Strategic Calls Made
 - **Narrowed ICP to Technical Grant & Proposal PIs**: Focused on high-stakes, 30–70 page technical proposals where cross-section parameter drift and citation corruption cause intense pain.
-- **Value-First Inbound Artifact Gifting over Cold Outbound**: Practitioners ignore generic sales emails. Handing them an automated structural audit that diagnoses real parameter risks in their public preprints creates immediate technical trust.
+- **Respectful Milestone-Triggered Outreach over Invasive Scraping**: Researchers fiercely protect their private IP and dislike unsolicited AI scraping of their unpublished drafts. Instead, we celebrate public milestones (arXiv releases, NIH awards) and deliver a free, pre-formatted Proposal Template Kit with a private 1-click sandbox.
 - **Strict Adherence to Product Spec**: Respected all 6 core rails—no spreadsheet editing, no live web scraping claims inside the editor, no unearned compliance badges, and zero outbound to real humans.
 
 ---

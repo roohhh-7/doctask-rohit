@@ -1,7 +1,7 @@
 # Task 1: Growth Strategy & Conversion Mechanics
 
-> **Core Model**: **Technical Artifact Gifting & Friction-Removal Inbound Loop**  
-> **Philosophy**: *Show, don't tell.* Technical leaders ignore sales pitches; they engage when you hand them a pre-computed, high-value technical audit of their own public problem space that saves them 10+ hours.
+> **Core Model**: **Respectful Milestone-Triggered Outbound & Interactive Proposal Sandbox**  
+> **Philosophy**: *Respect the researcher.* We never invasively scrape private drafts or claim to edit unreleased research without consent. Instead, we monitor public research milestones (arXiv preprints, NIH/NSF grant awards, major open-source RFCs), acknowledge their achievement with genuine peer respect, and deliver a free **Multi-Section Proposal Template & Interactive Sandbox** on SuperDocs.
 
 ---
 
@@ -9,17 +9,18 @@
 
 ```mermaid
 flowchart TD
-    A[Public Grant / Preprint Registry] -->|Ingest Public Metadata| B[Growth Engine Pipeline]
-    B -->|Analyze RFP / Grant Friction| C[Generate Tailored Proposal Audit Pack]
-    C -->|Store to Review Sink| D[Automated Quality Scoring & Diff Check]
-    D -->|High Quality Pass| E[Synthetic Practitioner Test Inbox / Channel]
-    E -->|Practitioner Reviews Audit Asset| F[Engages In-Document SuperDocs Demo Link]
-    F -->|Tests In-Document Section Editing| G[Converts to Paid Team Tier]
+    A[Public Research Milestone: arXiv / NIH / GitHub] -->|Extract Public Signal| B[Growth Engine Pipeline]
+    B -->|Synthesize Tailored Milestone Hook| C[Generate Personalized Outreach & Template Spec]
+    C -->|Store to Local Batch Sink| D[Automated Quality Gate: Specificity, Tone, Rails]
+    D -->|High Quality Pass| E[Personalized Outbound Delivery & Sandbox Link]
+    E -->|Researcher Explores Proposal Template| F[Tests In-Document Section Editing & Diff Review]
+    F -->|Adopts for Next Grant Cycle| G[Converts to Paid Team Workspace Tier]
 ```
 
 ### Why This Channel & Mechanism?
-1. **High Intent, Low Tolerance for Fluff**: PIs under grant deadlines have zero patience for product demos or generic SDR outreach. But when presented with an automated structural audit that flags citation gaps, budget math mismatches, and abstract drift in a clean document preview, conversion intent is immediate.
-2. **Natural Product Virality**: When a PI adopts SuperDocs for an NSF/DARPA grant, they must invite 3–6 co-authors (postdocs, co-PIs, academic collaborators) to review diffs and add sections, creating a 1:4 user expansion coefficient.
+1. **Respectful & Non-Intrusive**: Researchers are naturally sensitive to AI tools scraping private drafts. By celebrating their public milestones and offering a general proposal template kit, we establish immediate credibility without triggering privacy hesitation.
+2. **High Intent at Milestone Moments**: When a lab publishes a major paper or wins a grant, they immediately transition to writing follow-up proposals, commercialization packs, or technical RFCs—the exact moment they need SuperDocs.
+3. **Natural Multi-Author Expansion**: Grant proposals require 3–6 co-authors (postdocs, co-PIs, academic collaborators). One PI adopting SuperDocs pulls their entire collaborator network into the review loop.
 
 ---
 
@@ -27,37 +28,34 @@ flowchart TD
 
 | Funnel Stage | Mechanism | Conversion Target | Failure / Drop-off Point | Mitigation Strategy |
 |---|---|---|---|---|
-| **1. Target Discovery** | Automated ingestion of public SBIR/arXiv grants & RFP topics. | 100% data freshness | Missing technical abstract data | Strict schema validation; fallback to public repository specs. |
-| **2. Friction Analysis** | LLM analysis of document complexity (page count, citation density, multi-author risks). | 90% relevance score | Generic boilerplate recommendations | Domain-specific prompt templates with explicit technical constraints. |
-| **3. Asset Synthesis** | SuperDocs Growth Machine generates a personalized 4-section Proposal Audit & Document Blueprint. | 95% generation success | AI hallucination / broken markdown syntax | Multi-pass validator checking citation anchors and table formatting. |
-| **4. Practitioner Showcase** | Delivery of generated audit asset via direct interactive markdown/preview link. | 35% click-to-preview rate | Distrust of automated outreach | Complete transparency, zero sales jargon, strict privacy disclosure. |
-| **5. Product Activation** | Practitioner uploads existing messy grant draft into SuperDocs to run live section edits. | 25% activation rate | First-edit latency or initial cold-start UX friction | Pre-loaded interactive template with 1-click guided "targeted edit" tutorial. |
-| **6. Team Expansion** | PI shares document review link with co-authors. | 40% team invite rate | Co-author reluctance to adopt new tool | Guest review mode allowing inline diff comments without full account friction. |
+| **1. Milestone Ingestion** | Monitoring public arXiv preprints, NIH grant announcements & GitHub RFCs. | 100% data freshness | Missing technical abstract details | Strict schema validation; extract core tech stack from public papers. |
+| **2. Context Synthesis** | Engine synthesizes a tailored congratulatory note and matches relevant proposal template. | 95% relevance score | Generic boilerplate / marketing jargon | Strict tone scoring (<25 pts) enforcing peer-engineer language. |
+| **3. Asset Delivery** | 3-step respectful email sequence + 1-click interactive sandbox link. | 35% click-to-sandbox rate | Spam filters / message fatigue | Pure text delivery, zero tracking pixels, direct milestone reference. |
+| **4. Product Sandbox** | Researcher tests pre-loaded sample proposal with in-document diff editor. | 25% activation rate | Fear of data training / privacy | Clear banner: *"Zero model training, US-hosted isolated tenant."* |
+| **5. Live Document Adoption** | Researcher creates session and uploads their own proposal draft. | 72% edit loop completion | First-turn cold-start latency | Pre-warmed backend workers and compact diff response mode. |
+| **6. Team Expansion** | PI invites co-authors to review diffs and edit sections. | 30% team workspace upgrade | Co-author onboarding friction | Guest review mode allowing inline diff comments without full account friction. |
 
 ---
 
-## 3. The Hook & The Delivered Piece
+## 3. The Delivered Campaign Pieces
 
-The delivered asset is **not an email pitch**; it is an **executable Technical Proposal Audit Memo** that provides immediate utility:
-
-1. **Executive Abstract Reconciliation**: Checks if the stated grant objectives match the technical milestones.
-2. **Cross-Section Parameter Alignment**: Identifies inconsistencies in compute hours, dataset sizes, and model parameters across disparate sections.
-3. **Citation & Prior Art Verification Table**: Maps all claimed prior art against verified reference IDs.
-4. **SuperDocs 1-Click Refactor Spec**: A ready-to-run prompt snippet that the PI can paste into SuperDocs to automatically synchronize their entire document.
+Our machine produces two concrete, high-taste assets:
+1. **Personalized 3-Touch Email Sequence** ([`Cold_Email_Sequence.md`](file:///c:/Users/rohit/OneDrive/Desktop/superdocs/TASK-1-Growth-Machine/Cold_Email_Sequence.md)): Tailored specifically to the lab's recent milestone, tech stack, and proposal needs.
+2. **Interactive Research Proposal Landing Page** ([`Landing_Page_Spec.md`](file:///c:/Users/rohit/OneDrive/Desktop/superdocs/TASK-1-Growth-Machine/Landing_Page_Spec.md)): A friction-free sandbox demonstrating in-document multi-section diffs.
 
 ---
 
 ## 4. Economic Model & Unit Economics (Per 100 Accounts)
 
 - **Cost per Account Processed**:
-  - Research Ingestion & Scraping: $0.02
-  - LLM Analysis & Synthesis (GPT-4o / Claude 3.5 Sonnet equivalent): $0.18
+  - Public Research Signal Ingestion: $0.02
+  - LLM Milestone Analysis & Sequence Synthesis: $0.18
   - Infrastructure & Storage: $0.03
   - **Total Cost Per Account**: **$0.23**
 - **Conversion Math (Per 1,000 Accounts)**:
-  - 1,000 Processed Accounts ($230 total spend)
-  - 350 Click & Review Deliverable (35%)
-  - 87 Create SuperDocs Account & Upload Draft (25% of viewers)
+  - 1,000 Milestone Accounts ($230 total spend)
+  - 350 Click & Explore Sandbox (35%)
+  - 87 Create SuperDocs Account & Test Draft (25% of viewers)
   - 26 Paid Team Conversions at $49/mo/seat (avg 3 seats = $147/mo)
   - **Monthly Recurring Revenue (MRR) Added**: **$3,822**
   - **Customer Acquisition Cost (CAC)**: $230 / 26 = **$8.85**

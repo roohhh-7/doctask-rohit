@@ -1,13 +1,13 @@
 {
   "batch_name": "synthetic_batch_2",
-  "timestamp": "2026-08-07T20:47:31.500526+00:00",
+  "timestamp": "2026-08-07T22:55:59.172435+00:00",
   "total_records_processed": 5,
   "records_passed_gate": 5,
   "records_failed_gate": 0,
   "pass_rate_percent": 100.0,
-  "avg_latency_per_record_ms": 0.61,
-  "total_simulated_tokens": 10642,
-  "estimated_total_cost_usd": 0.0745,
+  "avg_latency_per_record_ms": 0.88,
+  "total_simulated_tokens": 12626,
+  "estimated_total_cost_usd": 0.0884,
   "records": [
     {
       "target_id": "SYNTH-B2-001",
@@ -22,10 +22,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2134,
-      "estimated_cost_usd": 0.01493,
+      "simulated_tokens": 2522,
+      "estimated_cost_usd": 0.01765,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B2-001_Foundry_Quantum_Audit.md"
+      "produced_asset_file": "SYNTH-B2-001_Foundry_Quantum_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B2-002",
@@ -40,10 +40,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2158,
-      "estimated_cost_usd": 0.0151,
+      "simulated_tokens": 2574,
+      "estimated_cost_usd": 0.01801,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B2-002_Helios_Energy_Compute_Audit.md"
+      "produced_asset_file": "SYNTH-B2-002_Helios_Energy_Compute_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B2-003",
@@ -58,10 +58,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2118,
-      "estimated_cost_usd": 0.01482,
-      "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B2-003_Axiom_Security_Systems_Audit.md"
+      "simulated_tokens": 2522,
+      "estimated_cost_usd": 0.01765,
+      "latency_ms": 1.0,
+      "produced_asset_file": "SYNTH-B2-003_Axiom_Security_Systems_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B2-004",
@@ -76,10 +76,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2098,
-      "estimated_cost_usd": 0.01468,
+      "simulated_tokens": 2486,
+      "estimated_cost_usd": 0.0174,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B2-004_Epistemic_Technologies_Audit.md"
+      "produced_asset_file": "SYNTH-B2-004_Epistemic_Technologies_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B2-005",
@@ -94,10 +94,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2134,
-      "estimated_cost_usd": 0.01493,
+      "simulated_tokens": 2522,
+      "estimated_cost_usd": 0.01765,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B2-005_Polymathic_Labs_Audit.md"
+      "produced_asset_file": "SYNTH-B2-005_Polymathic_Labs_Outreach_Pack.md"
     }
   ]
 }

@@ -2,9 +2,9 @@
 SuperDocs Autonomous Growth Engine
 ----------------------------------
 A multi-stage pipeline that automates:
-1. Target profile ingestion and schema validation
-2. Document friction and cross-section dependency analysis
-3. High-taste SuperDocs bespoke asset synthesis
+1. Target profile ingestion and schema validation (Public Milestones: arXiv / NIH / GitHub)
+2. Proposal friction and cross-section dependency analysis
+3. High-taste personalized milestone outreach + SuperDocs template kit synthesis
 4. Multi-dimension quality scoring and rail compliance gating
 5. Telemetry logging, cost estimation, and delivery simulation
 """
@@ -50,10 +50,10 @@ class GrowthEngine:
                 failed_count += 1
                 continue
 
-            # Stage 2: Friction Analysis
+            # Stage 2: Proposal Friction & Milestone Analysis
             friction_profile = self._analyze_friction(target)
 
-            # Stage 3: SuperDocs Asset Synthesis
+            # Stage 3: SuperDocs Outreach & Template Kit Synthesis
             asset_markdown, token_count = self._synthesize_asset(target, friction_profile)
             total_tokens += token_count
 
@@ -66,7 +66,7 @@ class GrowthEngine:
                 passed_count += 1
                 status = "PASSED_GATE"
                 # Save generated asset
-                asset_filename = f"{target['target_id']}_{target['organization_name'].replace(' ', '_')}_Audit.md"
+                asset_filename = f"{target['target_id']}_{target['organization_name'].replace(' ', '_')}_Outreach_Pack.md"
                 asset_path = os.path.join(batch_assets_dir, asset_filename)
                 with open(asset_path, "w", encoding="utf-8") as af:
                     af.write(asset_markdown)
@@ -150,35 +150,52 @@ class GrowthEngine:
         benchmark = params.get("eval_benchmark", "High-fidelity target precision")
         grant_val = f"${params.get('grant_amount_usd', 1000000):,}"
 
-        markdown = f"""# Technical Audit Memo: Structural Synchronization & Document Flow Analysis
+        markdown = f"""# Milestone Intelligence & Proposal Outreach Pack
 **Recipient**: {role}, {org}  
-**Subject**: In-Document Multi-Section Alignment for *{doc_type}*  
-**Document Profile**: {target.get('document_page_count', 45)} Pages | {target.get('contributor_count', 4)} Multi-Author Sections | Budget Scope: {grant_val}  
+**Trigger Milestone**: Public Publication / Award of *{doc_type}*  
+**Research Stack**: {model_type} | Target Metric: {benchmark} | Scope: {grant_val}  
 
 ---
 
-### Executive Summary & Problem Diagnosis
-In high-stakes technical proposals like your *{doc_type}*, making localized edits to core specifications (e.g. `{model_type}`) routinely induces cross-section version drift. When revising via conventional chat interfaces, edits generated outside the document hierarchy require manual copy-pasting, breaking LaTeX/Markdown formatting, destroying table structures, and corrupting citation anchors.
+## 1. Personalized Outbound Email (Respectful & Non-Intrusive)
 
-Our automated structural parse identified the following primary synchronization bottleneck:
-> **Identified Vulnerability**: *{target.get('primary_technical_friction')}*  
-> **Complexity Index**: {friction['sync_complexity_index']} (Risk Level: {friction['friction_risk_level']})
+**Subject**: {doc_type} & multi-author proposal drafting  
+**To**: {role} at {org}
+
+```text
+Hi there,
+
+Congratulations to the team at {org} on the recent milestone with "{doc_type}"! Tracking your work on {model_type} has been really impressive.
+
+When expanding technical breakthroughs into 50+ page grant proposals or follow-up RFCs, keeping 20+ sections, compute tables, and citation anchors in sync across multiple co-authors in Word or Google Docs quickly becomes a major headache.
+
+We built a free Proposal & Manuscript Template Kit in SuperDocs (think "Cursor for documents"):
+- Section-Precision Editing: Update parameters (e.g. compute allocations or dataset sizes) across multiple sections in one prompt without rewriting the whole document.
+- In-Document Red/Green Diff Review: Inspect every proposed change highlighted on the page before accepting.
+- Strict Privacy: Zero model training on user text, isolated private workspaces, and 100% US-hosted infrastructure.
+
+Here is a 1-click sandbox link pre-loaded with a sample technical proposal to test the diff editor:
+👉 https://use.superdocs.app/sandbox/{org.lower().replace(' ', '-')}-proposal-kit
+
+No sales call or credit card required. Hope this saves your team hours on the next drafting cycle!
+
+Best regards,
+Rohit | Growth Engineer, SuperDocs
+```
 
 ---
 
-### 1. Cross-Section Parameter Audit Matrix
+## 2. Parameter Alignment & Section Architecture Matrix
 
-| Section Identifier | Stated Parameter / Target Spec | Synchronized Dependency Target | Audit Status |
+| Section Identifier | Target Parameter Spec | Multi-Section Dependency | Alignment Solution |
 |---|---|---|---|
-| **Section 2 / Executive Abstract** | Target Metric: `{benchmark}` | Section 5 Technical Milestones | ⚠️ Potential Drift |
-| **Section 3.2 / Architecture Spec** | Architecture: `{model_type}` | Section 7 Compute Allocation | ⚠️ Reconciliation Required |
-| **Section 4.1 / Validation Protocols** | Empirical Baseline | Appendix B Citation Index | ✅ Anchored |
+| **Section 2 / Executive Abstract** | Target Metric: `{benchmark}` | Section 5 Milestones | Synchronized in-document update |
+| **Section 3.2 / Architecture Spec** | Architecture: `{model_type}` | Section 7 Compute Allocation | Synchronized budget table refactor |
+| **Section 4.1 / Validation Protocols** | Empirical Baseline | Appendix Citation Index | Lossless BibTeX citation preservation |
 
 ---
 
-### 2. In-Document Refactor Spec (Cursor-Style Multi-Section Execution)
-
-In SuperDocs, you do not copy text to an external chat window. You highlight the target sections directly and trigger in-place multi-section refactoring:
+## 3. SuperDocs In-Document Refactor Spec (1-Click Diff Execution)
 
 ```markdown
 <!-- SUPERDOCS EXECUTION PROMPT -->
@@ -187,13 +204,10 @@ Instruction:
 Reconcile all architecture parameter references to match "{model_type}".
 Ensure benchmark targets strictly reflect "{benchmark}".
 Update compute cluster allocation tables in Section 7 without breaking inline citation tags.
-Preserve all mathematical formulas and markdown table structures in-place.
+Preserve all mathematical formulas, LaTeX styling, and markdown table structures in-place.
 ```
 
----
-
-### 3. Verification & Native Diff Preview
-
+### Native Diff Preview (What the Researcher Sees):
 ```diff
 - Baseline throughput benchmark: uncalibrated legacy architecture
 + Synchronized throughput benchmark: {benchmark} ({model_type})
@@ -203,14 +217,13 @@ Preserve all mathematical formulas and markdown table structures in-place.
 
 ---
 
-### 4. Privacy & Disclosure Notice
-*This technical structural audit was generated by an automated growth intelligence system running on public technical registry metadata. No private files were accessed, and no external emails were transmitted. Generated for evaluation within SuperDocs Round 2.*
+## 4. Privacy & Ethical Guardrail Disclosure
+*This campaign piece was synthesized by an automated growth intelligence engine using public milestone metadata. No private drafts were accessed, and zero emails were transmitted to real individuals during this evaluation.*
 """
         simulated_tokens = len(markdown.split()) * 4 + 450
         return markdown, simulated_tokens
 
     def _evaluate_quality(self, target: Dict[str, Any], markdown: str) -> Tuple[float, Dict[str, float], bool]:
-        # 4 Scoring Criteria
         scores = {}
         
         # 1. Technical Specificity (0-25)
@@ -223,7 +236,7 @@ Preserve all mathematical formulas and markdown table structures in-place.
         scores["taste_and_tone"] = 15.0 if has_sales_fluff else 25.0
 
         # 3. Guardrail & Rail Compliance (0-25)
-        has_privacy_notice = "Privacy & Disclosure Notice" in markdown
+        has_privacy_notice = "Privacy & Ethical Guardrail Disclosure" in markdown
         has_no_spreadsheet_promise = "spreadsheet output" not in markdown.lower()
         scores["rails_compliance"] = 25.0 if has_privacy_notice and has_no_spreadsheet_promise else 10.0
 

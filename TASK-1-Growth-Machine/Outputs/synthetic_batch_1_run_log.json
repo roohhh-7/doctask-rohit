@@ -1,13 +1,13 @@
 {
   "batch_name": "synthetic_batch_1",
-  "timestamp": "2026-08-07T20:47:31.392744+00:00",
+  "timestamp": "2026-08-07T22:55:59.095319+00:00",
   "total_records_processed": 5,
   "records_passed_gate": 5,
   "records_failed_gate": 0,
   "pass_rate_percent": 100.0,
-  "avg_latency_per_record_ms": 0.6,
-  "total_simulated_tokens": 10502,
-  "estimated_total_cost_usd": 0.0735,
+  "avg_latency_per_record_ms": 0.71,
+  "total_simulated_tokens": 12474,
+  "estimated_total_cost_usd": 0.0873,
   "records": [
     {
       "target_id": "SYNTH-B1-001",
@@ -22,10 +22,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2066,
-      "estimated_cost_usd": 0.01446,
-      "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B1-001_Latent_Space_Bio_Audit.md"
+      "simulated_tokens": 2446,
+      "estimated_cost_usd": 0.01712,
+      "latency_ms": 1.44,
+      "produced_asset_file": "SYNTH-B1-001_Latent_Space_Bio_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B1-002",
@@ -40,10 +40,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2146,
-      "estimated_cost_usd": 0.01502,
+      "simulated_tokens": 2562,
+      "estimated_cost_usd": 0.01793,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B1-002_Cortex_Systems_Group_Audit.md"
+      "produced_asset_file": "SYNTH-B1-002_Cortex_Systems_Group_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B1-003",
@@ -58,10 +58,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2102,
-      "estimated_cost_usd": 0.01471,
-      "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B1-003_Synthea_Dynamics_Audit.md"
+      "simulated_tokens": 2498,
+      "estimated_cost_usd": 0.01748,
+      "latency_ms": 1.12,
+      "produced_asset_file": "SYNTH-B1-003_Synthea_Dynamics_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B1-004",
@@ -76,10 +76,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2122,
-      "estimated_cost_usd": 0.01485,
+      "simulated_tokens": 2518,
+      "estimated_cost_usd": 0.01762,
       "latency_ms": 0.0,
-      "produced_asset_file": "SYNTH-B1-004_Vectorial_AI_Labs_Audit.md"
+      "produced_asset_file": "SYNTH-B1-004_Vectorial_AI_Labs_Outreach_Pack.md"
     },
     {
       "target_id": "SYNTH-B1-005",
@@ -94,10 +94,10 @@
         "rails_compliance": 25.0,
         "syntax_integrity": 25.0
       },
-      "simulated_tokens": 2066,
-      "estimated_cost_usd": 0.01446,
-      "latency_ms": 1.01,
-      "produced_asset_file": "SYNTH-B1-005_NeuroPath_Research_Audit.md"
+      "simulated_tokens": 2450,
+      "estimated_cost_usd": 0.01715,
+      "latency_ms": 0.0,
+      "produced_asset_file": "SYNTH-B1-005_NeuroPath_Research_Outreach_Pack.md"
     }
   ]
 }
