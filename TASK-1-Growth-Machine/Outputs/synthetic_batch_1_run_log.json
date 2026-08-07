@@ -1,11 +1,11 @@
 {
   "batch_name": "synthetic_batch_1",
-  "timestamp": "2026-08-07T12:03:19.217957+00:00",
+  "timestamp": "2026-08-07T20:47:31.392744+00:00",
   "total_records_processed": 5,
   "records_passed_gate": 5,
   "records_failed_gate": 0,
   "pass_rate_percent": 100.0,
-  "avg_latency_per_record_ms": 1.0,
+  "avg_latency_per_record_ms": 0.6,
   "total_simulated_tokens": 10502,
   "estimated_total_cost_usd": 0.0735,
   "records": [
@@ -24,7 +24,7 @@
       },
       "simulated_tokens": 2066,
       "estimated_cost_usd": 0.01446,
-      "latency_ms": 2.04,
+      "latency_ms": 0.0,
       "produced_asset_file": "SYNTH-B1-001_Latent_Space_Bio_Audit.md"
     },
     {
@@ -96,7 +96,7 @@
       },
       "simulated_tokens": 2066,
       "estimated_cost_usd": 0.01446,
-      "latency_ms": 0.0,
+      "latency_ms": 1.01,
       "produced_asset_file": "SYNTH-B1-005_NeuroPath_Research_Audit.md"
     }
   ]

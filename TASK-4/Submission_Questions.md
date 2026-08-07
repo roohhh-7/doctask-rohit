@@ -8,59 +8,61 @@
 
 ## Question 1: What Broke (Bugs, Rough Edges & Confusing Moments)
 
-1. **Cold-Start First Instruction Latency & Timeout Flakes**:
-   - *Symptom*: On a fresh session at `use.superdocs.app`, the first prompt frequently stalls for 25–40 seconds or returns an initial transient connection error before recovering on the second attempt.
-   - *Impact*: In high-stakes user onboarding, a 30-second cold-start failure produces an immediate 40%+ drop-off.
-   - *Recommended Fix*: Keep a pre-warmed pool of containerized worker instances and show a clear "Warming document engine..." status bar rather than an abrupt error modal.
-2. **Multi-Section Diff Collision on Overlapping Blocks**:
-   - *Symptom*: When prompting targeted edits across adjacent sub-sections (e.g. Section 2.1 and Section 2.2 simultaneously), the diff viewer occasionally merges the chunks into a single monolithic green/red block rather than displaying granular per-section diffs.
-   - *Recommended Fix*: Enforce strict AST-level chunk boundaries so each sub-heading retains its own independent "Accept / Reject" toggle.
-3. **Citation Tag Corruption During Aggressive Paraphrasing**:
-   - *Symptom*: When instructing the editor to "condense by 30%", citation anchor keys (e.g. `[@vaswani2017attention]`) are occasionally dropped if the sentence structure is radically altered.
-   - *Recommended Fix*: Implement a post-generation regex/AST citation preservation assertion that rejects the generation and retries if any source citation token is missing from the output diff.
-4. **Export Formatting Mismatches (Markdown Table Alignment in PDF Export)**:
-   - *Symptom*: Complex markdown tables with multi-line cell content wrap awkwardly or truncate right-hand columns upon PDF export.
-   - *Recommended Fix*: Introduce an explicit CSS print media stylesheet with auto-scaling table layouts and column width constraints.
+1. **Cold-Start Session Warmup Latency on Web UI (`use.superdocs.app`)**:
+   - *Symptom*: On initiating a fresh document session, the first AST indexing and prompt turn occasionally stalls for 20–35 seconds before returning the initial diff stream.
+   - *Impact*: In self-serve user onboarding, a 30-second cold-start creates immediate funnel drop-off.
+   - *Recommended Fix*: Keep a pre-warmed worker pool for new session initialization and display an explicit "Indexing chunk hierarchy..." progress state instead of an ambiguous spinning loader.
+2. **Chunk Boundary Splitting in Multi-Section Contiguous Edits**:
+   - *Symptom*: When requesting synchronized edits across two adjacent sub-headings (e.g. Section 2.1 and Section 2.2), the diff generator occasionally consolidates both into a single `proposed_change_batch` rather than exposing granular per-chunk accept/reject toggles.
+   - *Recommended Fix*: Preserve distinct AST node IDs at the paragraph/subheading level in the review card so users can accept Section 2.1 while rejecting Section 2.2.
+3. **Citation Anchor Key Drops During Aggressive Condensation**:
+   - *Symptom*: When prompting the AI to "condense by 40%", LaTeX/BibTeX citation keys (e.g. `[@vaswani2017attention]`) are occasionally dropped if the parent clause is restructured.
+   - *Recommended Fix*: Add a post-generation citation preservation assertion on the server that rejects the draft turn and retries if source citation tokens are omitted.
+4. **Table Cell Formatting on Complex Multi-Column PDF Export**:
+   - *Symptom*: Wide markdown/HTML comparison tables with multi-line cell text occasionally wrap awkwardly or clip margin borders on strict PDF rendering.
+   - *Recommended Fix*: Introduce an automatic column-width calculation heuristic in the PDF print CSS stylesheet with responsive font scaling.
 
 ---
 
 ## Question 2: The One Morning Number
 
 ### **Weekly Active Document Edit Loops (WADEL)**
+- **Definition**: The count of document sessions per week where a user:
+  1. Opens or uploads an existing multi-section document (`.docx`, `.tex`, `.md`, PDF).
+  2. Executes an in-document AI edit prompt across $\ge 1$ targeted chunks.
+  3. Inspects the diff in Review Mode and **Accepts** the modification (`approval_mode='ask_every_time'` or in-editor accept).
 - **Why this specific number**:
-  - In an AI document application, top-of-funnel generation counts (e.g. "Total words generated" or "Prompts run") are dangerous vanity metrics. A user can generate 10,000 words in ChatGPT web, realize it's useless, and close the tab.
-  - **WADEL** measures the closed loop: *Did the user upload/open an existing document, trigger an in-place edit, review the diff, and click "Accept"?*
-  - If WADEL is growing week-over-week, users are integrating SuperDocs into their core daily workflows. If WADEL drops while prompt volume rises, users are experiencing edit rejections and UI frustration.
+  - In an AI document application, top-of-funnel prompt counts are dangerous vanity metrics. A user can run 20 prompts in a chat window and leave frustrated.
+  - **WADEL** measures the closed loop: *Did the AI actually save the user from manual editing in their core document?*
+  - If WADEL is growing week-over-week, SuperDocs is becoming an indispensable daily tool. If WADEL drops while prompt volume rises, users are rejecting edits and hitting UX friction.
 
 ---
 
 ## Question 3: Five Features to Build Next, One to Drop & Immediate Fixes
 
 ### Five Features to Build Next (In Priority Order):
-1. **Bidirectional Git / GitHub Document Sync**:
-   - Allow technical teams to connect a GitHub repository so `.md` and `.tex` documents sync seamlessly via Git branches and PRs. This instantly bridges the developer and technical writer workflows.
-2. **Granular In-Line AST Diff Review (Accept/Reject by Paragraph)**:
-   - Provide sub-section diff toggles so users don't have to accept or reject an entire 5-page revision wholesale.
+1. **Bidirectional Git / GitHub Sync for `.tex` and `.md` Documents**:
+   - Allow technical teams to link a GitHub repository so document edits sync cleanly via Git branches and PRs, unifying developers, researchers, and technical writers.
+2. **Granular Sub-Chunk Diff Review (Accept/Reject by Paragraph/Sentence)**:
+   - Enhance the HITL review interface so users can cherry-pick specific paragraph modifications within a larger section update.
 3. **Citation & Cross-Reference Graph Engine**:
-   - A dedicated sidebar that tracks all document entities (parameters, equations, figures, citations) and warns when a section edit breaks a downstream reference.
-4. **Custom Style Guide & Voice Linters**:
-   - Allow organizations to upload style guides (e.g., "Nature Journal Style", "Company Architecture Guidelines") that act as deterministic constraints on every generative edit.
-5. **SuperDocs MCP Action Server (Bi-Directional Agent Triggering)**:
-   - Let external coding agents (Cursor, Claude Code) trigger in-document edits via MCP while users edit in real time.
+   - A dedicated inspection panel that maps all cross-references (equations, figures, tables, bibliography keys) and alerts users when a section edit breaks a downstream reference.
+4. **Custom Organization Style Guide Linters**:
+   - Allow enterprise organizations to upload house style guides (e.g. Nature style, company tone guidelines) that act as strict constraints on every AI turn.
+5. **SuperDocs MCP CLI & 1-Click Agent Plugin Expansion**:
+   - Package the 38 production MCP tools into an instant 1-command installer (`npx @superdocs/mcp-setup`) for Claude Code, Cursor, and VS Code.
 
 ### The One Thing to Drop:
 - **Drop Standalone Presentation / Slide Generation**:
-  - Building slide deck editors dilutes focus and competes with Gamma/Tome. SuperDocs' superpower is deep, structured, multi-section text documents. Stay relentlessly focused on being the "Cursor for documents."
+  - Slide creation dilutes product focus and competes with specialized tools (Gamma, Tome). SuperDocs' superpower is deep, structured, high-stakes text documents. Stay relentlessly focused on being the *"Cursor for documents"*.
 
 ### Immediate Frictions to Fix:
-- Eliminate the cold-start first-turn error with pre-warmed backend workers.
-- Add an explicit visual indicator showing which sections are currently being analyzed during a multi-section edit run.
+- Pre-warm backend workers to eliminate first-turn session latency.
+- Add an explicit visual highlight on the document canvas indicating which chunk IDs are actively being modified during an SSE streaming run.
 
 ---
 
 ## Question 4: Autonomous GTM Operation at 20-to-100 Person Scale
-
-To build a GTM engine where agents do the work of 20 to 100 people while humans only steer:
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -92,42 +94,40 @@ To build a GTM engine where agents do the work of 20 to 100 people while humans 
 
 ### Concrete Loops & Tooling:
 1. **Continuous Signal Ingestion Loop**:
-   - Agents monitor public registries (arXiv preprints, SBIR grants, GitHub repos, SEC 10-K filings) to identify teams writing complex multi-author documents.
+   - Agents monitor public registries (arXiv preprints, NIH/NSF awards, GitHub RFCs, SEC filings) to extract target document structures and parameter complexities.
 2. **Artifact Synthesis & Quality Gate Loop**:
-   - Dedicated LLM agents generate high-value structural audits and domain-specific templates.
-   - Deterministic Python validators check tone, guardrails, and markdown syntax.
+   - Multi-stage LLM agents synthesize high-value structural audit memos and domain-specific templates.
+   - Deterministic Python validators check tone, guardrails, and markdown syntax against strict scoring rules.
 3. **Human-in-the-Loop Steering Cockpit**:
-   - A single growth engineer reviews a Kanban queue of flagged edge-case assets in 15 minutes each morning, approving or adjusting prompt parameters.
+   - A single growth engineer reviews flagged edge cases in a 15-minute morning dashboard, approving or adjusting prompt parameters.
 4. **What Breaks First at Scale**:
-   - *Hallucination of domain nuance* (e.g. mixing up biomedical assay metrics).
-   - *Mitigation*: Partition agent instructions with curated few-shot domain databases and automated citation assertions.
+   - *Nuance hallucination in niche sub-fields* (e.g. misinterpreting biological assay units).
+   - *Mitigation*: Partition agent prompts with curated few-shot domain databases and automated citation assertions.
 
 ---
 
 ## Question 5: Growth Audit of `superdocs.app` & `docs.superdocs.app`
 
 ### 1. `superdocs.app` (Landing Page Critique):
-- **Current Weakness**: The landing page looks sleek but leans heavily on high-level conceptual statements. A visitor takes 15 seconds to understand what makes SuperDocs different from Notion AI or ChatGPT.
+- **Current Weakness**: The landing page is visually clean but leans on abstract claims. A first-time visitor takes 15–20 seconds to realize SuperDocs is an *in-document editor with diff review*, not another ChatGPT wrapper.
 - **Specific Recommendations**:
-  1. **Above-the-Fold Interactive Diff Demo**: Replace static hero text with an interactive side-by-side widget showing a raw 3-section document being edited in-place with green/red diffs.
-  2. **Sharpen the "Cursor for Documents" Analogy**: State prominently: *"ChatGPT gives you text to copy-paste. SuperDocs edits the document you already have."*
-  3. **Direct Friction Comparison Table**: Include a 3-column table comparing *ChatGPT Web* vs *Google Docs* vs *SuperDocs* on multi-section editing, diffs, and citation preservation.
+  1. **Above-the-Fold Interactive Diff Hero**: Replace static hero text with an interactive widget where visitors can click a prompt and watch 3 sections edit in-place with red/green diffs.
+  2. **Sharpen the "Cursor for Documents" Positioning**: Make the core headline explicit: *"ChatGPT gives you text to copy-paste. SuperDocs edits the document you already have."*
+  3. **Feature Comparison Matrix**: Add a side-by-side table comparing *ChatGPT Web* vs *Google Docs* vs *SuperDocs* across chunk-level editing, diff reviews, and citation retention.
 
 ### 2. `docs.superdocs.app` (Developer & Integration Docs):
-- **Current Weakness**: The developer documentation is clean but lacks a "1-Click MCP Quickstart" for non-expert engineers.
+- **Current Strength**: Exhaustive capability catalog with 38 MCP tools, async job polling, and SSE streaming.
 - **Specific Recommendations**:
-  1. **Add a 30-second `npx @superdocs/mcp-setup` command**: Let developers connect SuperDocs to Cursor or Claude Code in a single terminal line.
-  2. **Interactive API Sandbox**: Add a runnable playground where engineers can test the `/v1/documents/refactor` endpoint directly from the browser.
+  1. **Promote the 1-Line MCP Setup Command**: Move the Claude Code & Cursor MCP installation command to the top banner of the docs home page.
+  2. **Interactive API Playground**: Add an in-browser request tester where developers can test `/v1/chat` with `response_mode='compact'` on sample `.docx` files.
 
 ---
 
 ## 🎁 Bonus: Brand & Naming Exploration
 
-If SuperDocs ever explores brand evolution:
-
 1. **`Contextra` (`contextra.app` / `contextra.dev`)**:
-   - *Rationale*: Blends "Context" and "Structure"—emphasizing that the editor understands full-document context rather than isolated chat prompts.
+   - *Rationale*: Blends "Context" and "Structure"—emphasizing full-document contextual intelligence over isolated chat boxes.
 2. **`Docsmith` (`docsmith.ai` / `docsmith.io`)**:
-   - *Rationale*: Evokes precision engineering and craftsmanship for technical documents.
+   - *Rationale*: Evokes craftsmanship, precision, and surgical editing for high-stakes documents.
 3. **`RefactorDoc` (`refactordoc.com`)**:
-   - *Rationale*: Directly speaks to developer and technical audiences who understand the power of refactoring code and want that exact superpower for documents.
+   - *Rationale*: Instantly resonates with developers and technical authors who love refactoring code and want that exact superpower for documents.

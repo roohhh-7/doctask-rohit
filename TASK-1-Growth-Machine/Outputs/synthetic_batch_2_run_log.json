@@ -1,11 +1,11 @@
 {
   "batch_name": "synthetic_batch_2",
-  "timestamp": "2026-08-07T12:04:40.650361+00:00",
+  "timestamp": "2026-08-07T20:47:31.500526+00:00",
   "total_records_processed": 5,
   "records_passed_gate": 5,
   "records_failed_gate": 0,
   "pass_rate_percent": 100.0,
-  "avg_latency_per_record_ms": 0.59,
+  "avg_latency_per_record_ms": 0.61,
   "total_simulated_tokens": 10642,
   "estimated_total_cost_usd": 0.0745,
   "records": [
@@ -60,7 +60,7 @@
       },
       "simulated_tokens": 2118,
       "estimated_cost_usd": 0.01482,
-      "latency_ms": 1.0,
+      "latency_ms": 0.0,
       "produced_asset_file": "SYNTH-B2-003_Axiom_Security_Systems_Audit.md"
     },
     {
