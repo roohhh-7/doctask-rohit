@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>n8n Workflow Studio — SuperDocs Growth Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --n8n-bg: #14151b;
+      --n8n-canvas: #1e1f29;
+      --n8n-sidebar: #181922;
+      --n8n-card: #252634;
+      --n8n-card-border: #353648;
+      --n8n-coral: #ff6d5a;
+      --n8n-coral-glow: rgba(255, 109, 90, 0.25);
+      --n8n-green: #22c55e;
+      --n8n-blue: #3b82f6;
+      --n8n-purple: #a855f7;
+      --n8n-amber: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--n8n-bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    header {
+      background: var(--n8n-sidebar);
+      border-bottom: 1px solid var(--n8n-card-border);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .n8n-logo {
+      background: var(--n8n-coral);
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+    }
+    .wf-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wf-tag {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--n8n-green);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .btn-exec {
+      background: var(--n8n-coral);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 12px var(--n8n-coral-glow);
+    }
+    .btn-exec:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    /* Studio Main Layout */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Canvas Area */
+    .canvas {
+      background-color: var(--n8n-canvas);
+      background-image: radial-gradient(#2f3142 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      position: relative;
+      overflow: auto;
+      padding: 60px 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* SVG Connecting Cables */
+    .cable-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2200px;
+      height: 600px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .cable-path {
+      stroke: #4b4d63;
+      stroke-width: 3px;
+      fill: none;
+      transition: stroke 0.3s ease;
+    }
+    .cable-path.active {
+      stroke: var(--n8n-coral);
+      stroke-dasharray: 6;
+      animation: dash 1s linear infinite;
+    }
+    @keyframes dash { to { stroke-dashoffset: -12; } }
+
+    /* Node Grid in Canvas */
+    .nodes-container {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Individual n8n Node Card */
+    .node-card {
+      background: var(--n8n-card);
+      border: 2px solid var(--n8n-card-border);
+      border-radius: 10px;
+      width: 230px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .node-card:hover {
+      border-color: var(--n8n-coral);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    }
+    .node-card.selected {
+      border-color: var(--n8n-coral);
+      box-shadow: 0 0 0 3px var(--n8n-coral-glow);
+    }
+    .node-card.executing {
+      border-color: var(--n8n-amber);
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse { from { box-shadow: 0 0 8px var(--n8n-amber); } to { box-shadow: 0 0 20px var(--n8n-amber); } }
+    .node-card.success {
+      border-color: var(--n8n-green);
+    }
+
+    .node-header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .node-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .icon-schedule { background: #3b82f6; color: #fff; }
+    .icon-http { background: #ff6d5a; color: #fff; }
+    .icon-code { background: #f59e0b; color: #000; }
+    .icon-ai { background: #a855f7; color: #fff; }
+    .icon-sink { background: #10b981; color: #000; }
+
+    .node-title-group {
+      flex: 1;
+      overflow: hidden;
+    }
+    .node-name {
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .node-type {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .node-body {
+      padding: 10px 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-text {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+    .status-text.ok { color: var(--n8n-green); }
+
+    /* Node Port Dots */
+    .port-in, .port-out {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4b4d63;
+      border: 2px solid var(--n8n-card);
+    }
+    .port-in { left: -6px; }
+    .port-out { right: -6px; }
+    .node-card:hover .port-out, .node-card:hover .port-in { background: var(--n8n-coral); }
+
+    /* Right Inspector Sidebar */
+    .sidebar {
+      background: var(--n8n-sidebar);
+      border-left: 1px solid var(--n8n-card-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--n8n-card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar-title { font-size: 14px; font-weight: 700; }
+    .sidebar-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .code-box {
+      background: #0f1015;
+      border: 1px solid var(--n8n-card-border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+    .json-key { color: #f472b6; }
+    .json-str { color: #34d399; }
+    .json-num { color: #fbbf24; }
+
+    /* Execution Overlay / Logs */
+    .exec-log-bar {
+      background: #111218;
+      border-top: 1px solid var(--n8n-card-border);
+      padding: 10px 20px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Studio Header -->
+  <header>
+    <div class="brand-group">
+      <span class="n8n-logo">n8n</span>
+      <div class="wf-title">
+        <span>SuperDocs Autonomous Growth Pipeline</span>
+        <span class="wf-tag">Active (v2.4)</span>
+      </div>
+    </div>
+    <button id="execBtn" class="btn-exec" onclick="executeWorkflow()">
+      <span>▶</span> Execute Workflow
+    </button>
+  </header>
+
+  <!-- Studio Layout -->
+  <div class="studio-layout">
+    
+    <!-- Canvas -->
+    <div class="canvas">
+      
+      <!-- SVG Cable Lines -->
+      <svg class="cable-svg">
+        <path id="cable1" class="cable-path" d="M 230 180 C 255 180, 255 180, 280 180" />
+        <path id="cable2" class="cable-path" d="M 510 180 C 535 180, 535 180, 560 180" />
+        <path id="cable3" class="cable-path" d="M 790 180 C 815 180, 815 180, 840 180" />
+        <path id="cable4" class="cable-path" d="M 1070 180 C 1095 180, 1095 180, 1120 180" />
+        <path id="cable5" class="cable-path" d="M 1350 180 C 1375 180, 1375 180, 1400 180" />
+        <path id="cable6" class="cable-path" d="M 1630 180 C 1655 180, 1655 180, 1680 180" />
+      </svg>
+
+      <!-- Nodes -->
+      <div class="nodes-container">
+        
+        <!-- Node 1 -->
+        <div id="node1" class="node-card selected" onclick="selectNode(1)">
+          <div class="node-header">
+            <div class="node-icon icon-schedule">⏰</div>
+            <div class="node-title-group">
+              <div class="node-name">Daily Growth Trigger</div>
+              <div class="node-type">scheduleTrigger</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Interval</span>
+            <span class="status-text ok">Every 24h</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 2 -->
+        <div id="node2" class="node-card" onclick="selectNode(2)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-http">📡</div>
+            <div class="node-title-group">
+              <div class="node-name">arXiv Signal Ingestion</div>
+              <div class="node-type">httpRequest (arXiv API)</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Signals</span>
+            <span id="stat2" class="status-text ok">5 Papers</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 3 -->
+        <div id="node3" class="node-card" onclick="selectNode(3)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-http">🏢</div>
+            <div class="node-title-group">
+              <div class="node-name">Apollo REST Enrichment</div>
+              <div class="node-type">httpRequest (Apollo API)</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Enrichment</span>
+            <span id="stat3" class="status-text ok">100% Match</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 4 -->
+        <div id="node4" class="node-card" onclick="selectNode(4)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-code">🔍</div>
+            <div class="node-title-group">
+              <div class="node-name">Complexity Filter</div>
+              <div class="node-type">code (JavaScript)</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Doc Scope</span>
+            <span id="stat4" class="status-text ok">30+ Pages Only</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 5 -->
+        <div id="node5" class="node-card" onclick="selectNode(5)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-ai">✍️</div>
+            <div class="node-title-group">
+              <div class="node-name">SuperDocs AI Outreach</div>
+              <div class="node-type">openAi / anthropic</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Campaign</span>
+            <span id="stat5" class="status-text ok">3-Touch Ready</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 6 -->
+        <div id="node6" class="node-card" onclick="selectNode(6)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-code">🛡️</div>
+            <div class="node-title-group">
+              <div class="node-name">Automated QA Gate</div>
+              <div class="node-type">code (Evaluator)</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>QA Pass</span>
+            <span id="stat6" class="status-text ok">100 / 100</span>
+          </div>
+          <div class="port-out"></div>
+        </div>
+
+        <!-- Node 7 -->
+        <div id="node7" class="node-card" onclick="selectNode(7)">
+          <div class="port-in"></div>
+          <div class="node-header">
+            <div class="node-icon icon-sink">👤</div>
+            <div class="node-title-group">
+              <div class="node-name">Human Gate 1 Staging</div>
+              <div class="node-type">stagingSink (Local)</div>
+            </div>
+          </div>
+          <div class="node-body">
+            <span>Staging Sink</span>
+            <span id="stat7" class="status-text ok">Ready for Review</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Inspector Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div id="sideNodeName" class="sidebar-title">Daily Growth Trigger</div>
+        <span id="sideNodeType" style="font-size:11px; font-family:var(--font-mono); color:var(--n8n-coral);">scheduleTrigger</span>
+      </div>
+      <div class="sidebar-content">
+        
+        <div class="field-group">
+          <div class="field-label">Node Description</div>
+          <div id="sideDesc" style="font-size:13px; color:var(--text-muted); line-height:1.4;">
+            Triggers the growth pipeline automatically once every 24 hours at 9:00 AM UTC.
+          </div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Node Parameters (JSON)</div>
+          <div id="sideParams" class="code-box">
+{
+  "rule": {
+    "interval": [{ "field": "days", "daysInterval": 1 }]
+  }
+}</div>
+        </div>
+
+        <div class="field-group">
+          <div class="field-label">Output Data Sample</div>
+          <div id="sideOutput" class="code-box">
+{
+  "timestamp": "2026-08-08T09:00:00Z",
+  "execution_mode": "production_batch",
+  "status": "TRIGGERED"
+}</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Log Bar -->
+  <div class="exec-log-bar">
+    <div id="logText">● Pipeline Idle. Click "Execute Workflow" to simulate all 7 nodes.</div>
+    <div style="color:var(--text-muted);">JSON Schema: TASK-1-Growth-Machine/Automations/n8n_growth_workflow.json</div>
+  </div>
+
+  <script>
+    const NODE_DATA = {
+      1: {
+        name: "Daily Growth Trigger",
+        type: "scheduleTrigger",
+        desc: "Triggers the growth automation pipeline automatically once every 24 hours at 9:00 AM UTC.",
+        params: '{\n  "rule": {\n    "interval": [{ "field": "days", "daysInterval": 1 }]\n  }\n}',
+        output: '{\n  "timestamp": "2026-08-08T09:00:00Z",\n  "execution_mode": "production_batch",\n  "status": "TRIGGERED"\n}'
+      },
+      2: {
+        name: "arXiv Signal Ingestion",
+        type: "httpRequest (Cornell arXiv API)",
+        desc: "Queries the live Cornell arXiv API for newly submitted research preprints in AI, Bio, and DeepTech.",
+        params: '{\n  "url": "http://export.arxiv.org/api/query",\n  "queryParameters": {\n    "search_query": "cat:cs.AI OR cat:q-bio",\n    "max_results": "5",\n    "sortBy": "submittedDate"\n  }\n}',
+        output: '{\n  "signals": [\n    {\n      "title": "Structural Diffusion for Macromolecular Complexes",\n      "authors": 5,\n      "inferred_org": "Latent Space Bio",\n      "estimated_pages": 52\n    }\n  ]\n}'
+      },
+      3: {
+        name: "Apollo REST Enrichment",
+        type: "httpRequest (Apollo API)",
+        desc: "Enriches the target domain with company headcount, verified tech stack, and matches Principal Investigator / Lead roles.",
+        params: '{\n  "endpoint": "POST https://api.apollo.io/v1/organizations/enrich",\n  "headers": { "X-Api-Key": "$env.APOLLO_KEY" },\n  "target_roles": ["Principal Investigator", "Head of AI"]\n}',
+        output: '{\n  "org": "Latent Space Bio",\n  "headcount": 45,\n  "role": "Principal Investigator",\n  "tech": ["PyTorch", "CUDA", "AWS"],\n  "email": "sarah.chen@latentspacebio.test-sink.local"\n}'
+      },
+      4: {
+        name: "Complexity Filter",
+        type: "code (JavaScript)",
+        desc: "Calculates document editing friction index. Discards simple short docs and only qualifies 30+ page complex manuscripts.",
+        params: 'const pageCount = $json.estimated_pages;\nconst contributors = $json.authors;\nconst complexity = (pageCount * 0.1) + (contributors * 0.5);\n\nif (pageCount >= 30 && contributors >= 2) {\n  return [{ json: { ...$json, complexity, status: "QUALIFIED" } }];\n}',
+        output: '{\n  "complexity_index": 6.7,\n  "friction_level": "HIGH",\n  "status": "QUALIFIED_TIER_1"\n}'
+      },
+      5: {
+        name: "SuperDocs AI Outreach",
+        type: "openAi / anthropic",
+        desc: "Synthesizes the progressive 3-touch problem-first email sequence and SuperDocs in-document refactor prompt.",
+        params: '{\n  "model": "gpt-4o",\n  "temperature": 0.2,\n  "prompt": "Synthesize 3-touch problem-first sequence highlighting ChatGPT copy-paste friction across 52 pages..."\n}',
+        output: '{\n  "touch_1": "Saw Latent Space Bio\'s PyTorch work... when revising 52+ page grant proposals...",\n  "touch_2": "In-document diff walkthrough: Cmd+K in-place updates...",\n  "touch_3": "Free 1-click sandbox link..."\n}'
+      },
+      6: {
+        name: "Automated QA Gate",
+        type: "code (Evaluator)",
+        desc: "Evaluates synthesized output on 4 strict criteria: Specificity (25), Tone (25), Rails Compliance (25), Syntax (25). Threshold: >=85.",
+        params: 'let score = 0;\nscore += hasSpecifics ? 25 : 15;\nscore += zeroHype ? 25 : 10;\nscore += strictRails ? 25 : 0;\nscore += validSyntax ? 25 : 15;\n\nreturn { qa_score: score, passes_gate: score >= 85 };',
+        output: '{\n  "qa_score": 100,\n  "breakdown": { "specificity": 25, "tone": 25, "rails": 25, "syntax": 25 },\n  "status": "PASSED_QA_GATE"\n}'
+      },
+      7: {
+        name: "Human Gate 1 Staging",
+        type: "stagingSink (Local)",
+        desc: "Stages approved leads for the growth engineer's final taste check before outreach (Human-in-the-loop Gate 1).",
+        params: '{\n  "destination": "GTM Operations Cockpit Staging DB",\n  "action": "STAGE_FOR_OPERATOR_APPROVAL",\n  "rails": "ZERO_REAL_OUTBOUND"\n}',
+        output: '{\n  "staged_id": "STG-20260808-001",\n  "ready_for_human_gate_1": true,\n  "status": "AWAITING_OPERATOR_CLICK"\n}'
+      }
+    };
+
+    let selectedNodeId = 1;
+
+    function selectNode(id) {
+      selectedNodeId = id;
+      document.querySelectorAll(".node-card").forEach((c, idx) => {
+        c.classList.toggle("selected", idx === id - 1);
+      });
+      const data = NODE_DATA[id];
+      document.getElementById("sideNodeName").textContent = data.name;
+      document.getElementById("sideNodeType").textContent = data.type;
+      document.getElementById("sideDesc").textContent = data.desc;
+      document.getElementById("sideParams").textContent = data.params;
+      document.getElementById("sideOutput").textContent = data.output;
+    }
+
+    async function executeWorkflow() {
+      const execBtn = document.getElementById("execBtn");
+      const logText = document.getElementById("logText");
+      execBtn.disabled = true;
+      execBtn.textContent = "⏳ Executing...";
+
+      for (let i = 1; i <= 7; i++) {
+        selectNode(i);
+        const node = document.getElementById(`node${i}`);
+        node.classList.add("executing");
+        logText.textContent = `▶ Running Node ${i}/7: ${NODE_DATA[i].name}...`;
+        
+        if (i > 1) {
+          const cable = document.getElementById(`cable${i-1}`);
+          if (cable) cable.classList.add("active");
+        }
+
+        await new Promise(r => setTimeout(r, 600));
+        node.classList.remove("executing");
+        node.classList.add("success");
+      }
+
+      logText.textContent = `✓ Workflow Executed Successfully! 5 Leads Processed · 100% QA Pass · Staged for Human Gate 1`;
+      logText.style.color = "var(--n8n-green)";
+      execBtn.disabled = false;
+      execBtn.innerHTML = "<span>▶</span> Re-Execute Workflow";
+    }
+  </script>
+</body>
+</html>
