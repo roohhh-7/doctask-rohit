@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SuperDocs GTM Operations Cockpit</title>
+  <title>SuperDocs GTM Operations Cockpit & n8n Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0a0c10;
       --bg-secondary: #12161f;
       --bg-card: #181d28;
-      --bg-hover: #222938;
+      --bg-card-hover: #222938;
       --border-color: #262f40;
+      --border-subtle: rgba(255, 255, 255, 0.08);
       --text-primary: #f0f4fc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -22,6 +23,8 @@
       --accent-green: #10b981;
       --accent-amber: #f59e0b;
       --accent-red: #ef4444;
+      --n8n-coral: #ff6d5a;
+      --n8n-coral-glow: rgba(255, 109, 90, 0.25);
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
@@ -33,27 +36,32 @@
       font-family: var(--font-sans);
       font-size: 14px;
       line-height: 1.5;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* Top Navigation */
     header {
       background: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 24px;
+      padding: 10px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 20;
     }
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-weight: 700;
+    }
+    .brand-logo {
+      font-weight: 800;
       font-size: 16px;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
+      color: #fff;
     }
     .brand-badge {
       background: rgba(59, 130, 246, 0.15);
@@ -65,18 +73,107 @@
       font-family: var(--font-mono);
       font-weight: 600;
     }
-    .header-actions {
+
+    /* View Mode Switcher */
+    .view-switcher {
+      display: flex;
+      background: #0f1218;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 4px;
+    }
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .view-btn.active {
+      background: var(--bg-card);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .view-btn:hover:not(.active) {
+      color: var(--text-primary);
+    }
+
+    .header-right {
       display: flex;
       align-items: center;
       gap: 16px;
     }
-    .status-pill {
+    .btn-n8n-external {
+      background: var(--n8n-coral);
+      color: #fff;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
+      transition: filter 0.15s;
+    }
+    .btn-n8n-external:hover { filter: brightness(1.1); }
+
+    /* Content Area */
+    .view-container {
+      flex: 1;
+      display: none;
+      overflow: hidden;
+      position: relative;
+    }
+    .view-container.active {
+      display: flex;
+    }
+
+    /* =========================================================================
+       VIEW 1: n8n LIVE AUTOMATION ENGINE
+       ========================================================================= */
+    .n8n-view-layout {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+    }
+    .n8n-canvas-area {
+      background-color: #161822;
+      background-image: radial-gradient(#2a2d3d 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      position: relative;
+      overflow: auto;
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+    .n8n-canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 0 10px;
+    }
+    .n8n-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
       font-size: 12px;
       color: var(--accent-green);
-      font-weight: 500;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 4px 10px;
+      border-radius: 20px;
     }
     .status-dot {
       width: 8px;
@@ -85,61 +182,114 @@
       border-radius: 50%;
       box-shadow: 0 0 8px var(--accent-green);
     }
-    .batch-select {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-      padding: 6px 12px;
+    .btn-exec-n8n {
+      background: var(--n8n-coral);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
       border-radius: 6px;
-      font-size: 12px;
-      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 13px;
       cursor: pointer;
-      outline: none;
-    }
-
-    /* Visual Pipeline Flow */
-    .pipeline-bar {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
-      padding: 10px 24px;
       display: flex;
       align-items: center;
       gap: 8px;
-      overflow-x: auto;
+      box-shadow: 0 4px 12px var(--n8n-coral-glow);
+      transition: all 0.15s ease;
     }
-    .pipe-node {
+    .btn-exec-n8n:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .n8n-node-row {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 30px;
+      position: relative;
+      padding: 20px 10px;
+    }
+    .n8n-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-family: var(--font-mono);
-      white-space: nowrap;
-      color: var(--text-secondary);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      width: 220px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      z-index: 2;
     }
-    .pipe-node.active {
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-      background: rgba(6, 182, 212, 0.1);
+    .n8n-card:hover {
+      border-color: var(--n8n-coral);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
     }
-    .pipe-node.done {
+    .n8n-card.active {
+      border-color: var(--n8n-coral);
+      box-shadow: 0 0 0 3px var(--n8n-coral-glow);
+    }
+    .n8n-card.executing {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 12px var(--accent-amber);
+    }
+    .n8n-card.success {
       border-color: var(--accent-green);
-      color: var(--accent-green);
     }
-    .pipe-arrow { color: var(--text-muted); font-size: 12px; }
+    .n8n-card-header {
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .node-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .n8n-card-body {
+      padding: 10px 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    /* Main 3-Column Layout */
-    .dashboard-grid {
+    .n8n-sidebar {
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-color);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+    .code-box {
+      background: #0b0d13;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* =========================================================================
+       VIEW 2: GTM OPERATIONS COCKPIT
+       ========================================================================= */
+    .gtm-grid {
+      width: 100%;
+      height: 100%;
       display: grid;
       grid-template-columns: 320px 1fr 340px;
-      flex: 1;
-      overflow: hidden;
     }
-
-    /* Left Column: Signal & Lead Stream */
     .lead-list-pane {
       background: var(--bg-secondary);
       border-right: 1px solid var(--border-color);
@@ -165,9 +315,7 @@
       cursor: pointer;
       transition: all 0.15s ease;
     }
-    .lead-card:hover {
-      background: var(--bg-hover);
-    }
+    .lead-card:hover { background: var(--bg-card-hover); }
     .lead-card.active {
       background: var(--bg-card);
       border-left: 3px solid var(--accent-blue);
@@ -178,11 +326,7 @@
       align-items: flex-start;
       margin-bottom: 4px;
     }
-    .org-title {
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
+    .org-title { font-weight: 600; font-size: 14px; color: var(--text-primary); }
     .qa-badge {
       font-size: 11px;
       font-family: var(--font-mono);
@@ -192,16 +336,8 @@
       color: var(--accent-green);
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
-    .lead-meta {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-    .lead-tags {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+    .lead-meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+    .lead-tags { display: flex; gap: 6px; flex-wrap: wrap; }
     .tag {
       font-size: 10px;
       font-family: var(--font-mono);
@@ -211,7 +347,6 @@
       color: var(--text-muted);
     }
 
-    /* Center Column: Inspector & Review */
     .inspector-pane {
       background: var(--bg-primary);
       display: flex;
@@ -241,7 +376,6 @@
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-family: var(--font-mono); }
     .stat-val { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
 
-    /* Touch Sequence Tabs */
     .tab-nav {
       display: flex;
       gap: 8px;
@@ -276,7 +410,6 @@
       color: #e2e8f0;
     }
 
-    /* Human Gate Actions */
     .gate-actions {
       display: flex;
       gap: 12px;
@@ -297,19 +430,11 @@
       transition: all 0.15s ease;
       border: none;
     }
-    .btn-approve {
-      background: var(--accent-green);
-      color: #000;
-    }
+    .btn-approve { background: var(--accent-green); color: #000; }
     .btn-approve:hover { filter: brightness(1.1); }
-    .btn-quarantine {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-secondary);
-    }
+    .btn-quarantine { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary); }
     .btn-quarantine:hover { color: var(--accent-red); border-color: var(--accent-red); }
 
-    /* Right Column: Telemetry & Economics */
     .telemetry-pane {
       background: var(--bg-secondary);
       border-left: 1px solid var(--border-color);
@@ -332,50 +457,15 @@
       color: var(--text-muted);
       margin-bottom: 8px;
     }
-    .metric-hero {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.5px;
-    }
-    .metric-sub {
-      font-size: 12px;
-      color: var(--accent-green);
-      margin-top: 4px;
-      font-family: var(--font-mono);
-    }
+    .metric-hero { font-size: 26px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; }
+    .metric-sub { font-size: 12px; color: var(--accent-green); margin-top: 4px; font-family: var(--font-mono); }
 
-    .qa-bar-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 12px;
-    }
-    .qa-bar-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .qa-bar-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-    }
-    .qa-progress {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .qa-fill {
-      height: 100%;
-      background: var(--accent-green);
-      width: 100%;
-    }
+    .qa-bar-group { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .qa-bar-item { display: flex; flex-direction: column; gap: 4px; }
+    .qa-bar-label { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary); }
+    .qa-progress { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+    .qa-fill { height: 100%; background: var(--accent-green); width: 100%; }
 
-    /* Toast Notification */
     #toast {
       position: fixed;
       bottom: 24px;
@@ -394,183 +484,424 @@
 </head>
 <body>
 
-  <!-- Top Header -->
+  <!-- Top Header Navigation -->
   <header>
-    <div class="brand">
-      <span>SuperDocs</span>
+    <div class="brand-group">
+      <span class="brand-logo">SuperDocs</span>
       <span class="brand-badge">GTM COCKPIT v2.4</span>
     </div>
-    <div class="header-actions">
-      <div class="status-pill">
-        <div class="status-dot"></div>
-        <span>n8n ORCHESTRATION ENGINE LIVE</span>
-      </div>
-      <select id="batchSelect" class="batch-select" onchange="switchBatch()">
+
+    <!-- Mode Switcher -->
+    <div class="view-switcher">
+      <button id="viewBtnGtm" class="view-btn active" onclick="switchView('gtm')">
+        <span>🎯</span> Lead Stream & Gate 1
+      </button>
+      <button id="viewBtnN8n" class="view-btn" onclick="switchView('n8n')">
+        <span>⚡</span> n8n Automation Graph
+      </button>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-right">
+      <a href="http://localhost:5678" target="_blank" class="btn-n8n-external">
+        <span>🔗</span> Open Local n8n Canvas
+      </a>
+      <select id="batchSelect" class="batch-select" style="background:var(--bg-card); color:#fff; border:1px solid var(--border-color); padding:6px 10px; border-radius:6px; font-family:var(--font-mono); font-size:12px;" onchange="switchBatch()">
+        <option value="live">100% Live arXiv & Apollo Batch</option>
         <option value="1">Batch 1 (Bio-AI Labs)</option>
         <option value="2">Batch 2 (DeepTech Systems)</option>
       </select>
     </div>
   </header>
 
-  <!-- n8n Node Flow Bar -->
-  <div class="pipeline-bar">
-    <div class="pipe-node done">⚡ Cron Trigger (9 AM)</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node done">📡 arXiv Signal Ingestion</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node done">🏢 Apollo REST Enrichment</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node done">🔍 Complexity Filter (30+ pgs)</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node active">✍️ SuperDocs AI Outreach</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node done">🛡️ Quality Gate (100/100)</div>
-    <div class="pipe-arrow">➔</div>
-    <div class="pipe-node active">👤 Human Gate 1 (Staging)</div>
-  </div>
-
-  <!-- Main 3-Column Layout -->
-  <div class="dashboard-grid">
-    
-    <!-- Left Column: Lead Stream -->
-    <div class="lead-list-pane">
-      <div class="pane-header">
-        <span>Enriched Target Accounts</span>
-        <span id="leadCount" class="qa-badge">5 ACCOUNTS</span>
-      </div>
-      <div id="leadList">
-        <!-- Injected via JS -->
-      </div>
-    </div>
-
-    <!-- Center Column: Lead & Campaign Inspector -->
-    <div class="inspector-pane">
+  <!-- =========================================================================
+       VIEW 1: GTM OPERATIONS COCKPIT
+       ========================================================================= -->
+  <div id="viewGtm" class="view-container active">
+    <div class="gtm-grid">
       
-      <!-- Apollo Enrichment Inspector Card -->
-      <div class="inspector-card">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <h2 id="insOrg" style="font-size:18px; font-weight:700;">Latent Space Bio</h2>
-            <div id="insPreprint" style="color:var(--text-secondary); font-size:12px; margin-top:2px;">Preprint: Structural Diffusion for Macromolecular Complexes</div>
-          </div>
-          <span id="insQaBadge" class="qa-badge">QA: 100/100 (PASSED)</span>
+      <!-- Left Column: Lead Stream -->
+      <div class="lead-list-pane">
+        <div class="pane-header">
+          <span>Target Research Accounts</span>
+          <span id="leadCount" class="qa-badge">5 ACCOUNTS</span>
         </div>
-
-        <div class="apollo-grid">
-          <div class="apollo-stat">
-            <div class="stat-label">Verified Role</div>
-            <div id="insRole" class="stat-val">Principal Investigator</div>
-          </div>
-          <div class="apollo-stat">
-            <div class="stat-label">Headcount</div>
-            <div id="insSize" class="stat-val">45 employees</div>
-          </div>
-          <div class="apollo-stat">
-            <div class="stat-label">Doc Scope</div>
-            <div id="insScope" class="stat-val">52-Page Proposal</div>
-          </div>
-          <div class="apollo-stat">
-            <div class="stat-label">Complexity Index</div>
-            <div id="insComplexity" class="stat-val" style="color:var(--accent-cyan);">6.7 (HIGH FRICTION)</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Campaign Copy Inspector -->
-      <div class="inspector-card">
-        <div class="tab-nav">
-          <button class="tab-btn active" onclick="switchTouch(1)">Touch 1 (The Shared Pain Hook)</button>
-          <button class="tab-btn" onclick="switchTouch(2)">Touch 2 (In-Doc Diff Walkthrough)</button>
-          <button class="tab-btn" onclick="switchTouch(3)">Touch 3 (Sandbox & Clean Break)</button>
-        </div>
-
-        <div id="emailPreview" class="email-preview-box">
+        <div id="leadList">
           <!-- Injected via JS -->
         </div>
-
-        <!-- Human Gate 1 Action -->
-        <div class="gate-actions">
-          <button class="btn btn-approve" onclick="approveLead()">
-            <span>✓</span> Approve for Staging (Human Gate 1)
-          </button>
-          <button class="btn btn-quarantine" onclick="quarantineLead()">
-            <span>✗</span> Quarantine Copy
-          </button>
-          <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono); margin-left:auto;">
-            Strict Rails: Zero real outbound sent. Local test sink.
-          </span>
-        </div>
       </div>
 
-    </div>
-
-    <!-- Right Column: Live Telemetry & Unit Economics -->
-    <div class="telemetry-pane">
-      
-      <div class="metric-card">
-        <div class="metric-header">Unit Economics (Simulated)</div>
-        <div class="metric-hero">$8.85 <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">CAC</span></div>
-        <div class="metric-sub">✓ < 2 Days Payback Period</div>
-        <div style="font-size:11px; color:var(--text-secondary); margin-top:8px; line-height:1.4;">
-          Cost/Lead: $0.015 · 35% Preview Rate · 25% Sandbox · 30% Team Workspace Upgrade.
-        </div>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-header">Quality Gate Telemetry</div>
-        <div class="metric-hero">100% <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">Pass Rate</span></div>
-        <div class="metric-sub">0 Flagged / 10 Processed</div>
+      <!-- Center Column: Lead Inspector -->
+      <div class="inspector-pane">
         
-        <div class="qa-bar-group">
-          <div class="qa-bar-item">
-            <div class="qa-bar-label"><span>Technical Specificity</span><span>25 / 25</span></div>
-            <div class="qa-progress"><div class="qa-fill"></div></div>
+        <!-- Apollo Org Details -->
+        <div class="inspector-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h2 id="insOrg" style="font-size:18px; font-weight:700;">Mistral AI</h2>
+              <div id="insPreprint" style="color:var(--text-secondary); font-size:12px; margin-top:2px;">Paper: Mixture-of-Experts Scaling for Long-Context Reasoning</div>
+            </div>
+            <span id="insQaBadge" class="qa-badge">QA: 100/100 (PASSED)</span>
           </div>
-          <div class="qa-bar-item">
-            <div class="qa-bar-label"><span>Taste & Tone (Zero Hype)</span><span>25 / 25</span></div>
-            <div class="qa-progress"><div class="qa-fill"></div></div>
-          </div>
-          <div class="qa-bar-item">
-            <div class="qa-bar-label"><span>Product Rails Compliance</span><span>25 / 25</span></div>
-            <div class="qa-progress"><div class="qa-fill"></div></div>
-          </div>
-          <div class="qa-bar-item">
-            <div class="qa-bar-label"><span>Syntax & Diff Integrity</span><span>25 / 25</span></div>
-            <div class="qa-progress"><div class="qa-fill"></div></div>
+
+          <div class="apollo-grid">
+            <div class="apollo-stat">
+              <div class="stat-label">Verified Role</div>
+              <div id="insRole" class="stat-val">Lead Author / PI</div>
+            </div>
+            <div class="apollo-stat">
+              <div class="stat-label">Headcount (Apollo)</div>
+              <div id="insSize" class="stat-val">150 employees</div>
+            </div>
+            <div class="apollo-stat">
+              <div class="stat-label">Doc Scope</div>
+              <div id="insScope" class="stat-val">42-Page Spec</div>
+            </div>
+            <div class="apollo-stat">
+              <div class="stat-label">Complexity Index</div>
+              <div id="insComplexity" class="stat-val" style="color:var(--accent-cyan);">6.2 (HIGH FRICTION)</div>
+            </div>
           </div>
         </div>
+
+        <!-- 3-Touch Outreach Inspector -->
+        <div class="inspector-card">
+          <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTouch(1)">Touch 1 (The Shared Pain Hook)</button>
+            <button class="tab-btn" onclick="switchTouch(2)">Touch 2 (In-Doc Diff Walkthrough)</button>
+            <button class="tab-btn" onclick="switchTouch(3)">Touch 3 (Sandbox & Clean Break)</button>
+          </div>
+
+          <div id="emailPreview" class="email-preview-box">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- Human Gate 1 Action -->
+          <div class="gate-actions">
+            <button class="btn btn-approve" onclick="approveLead()">
+              <span>✓</span> Approve for Staging (Human Gate 1)
+            </button>
+            <button class="btn btn-quarantine" onclick="quarantineLead()">
+              <span>✗</span> Quarantine Copy
+            </button>
+            <span style="font-size:11px; color:var(--text-muted); font-family:var(--font-mono); margin-left:auto;">
+              Strict Rails: Zero real outbound sent. Local test sink.
+            </span>
+          </div>
+        </div>
+
       </div>
 
-      <div class="metric-card">
-        <div class="metric-header">Execution Telemetry</div>
-        <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; margin-bottom:6px;">
-          <span style="color:var(--text-secondary);">Avg Node Latency</span>
-          <span style="color:var(--accent-cyan); font-weight:600;">0.8 ms</span>
+      <!-- Right Column: Telemetry & Economics -->
+      <div class="telemetry-pane">
+        
+        <div class="metric-card">
+          <div class="metric-header">Unit Economics (Simulated)</div>
+          <div class="metric-hero">$8.85 <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">CAC</span></div>
+          <div class="metric-sub">✓ < 2 Days Payback Period</div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:8px; line-height:1.4;">
+            Cost/Lead: $0.015 · 35% Preview Rate · 25% Sandbox · 30% Team Workspace Upgrade.
+          </div>
         </div>
-        <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; margin-bottom:6px;">
-          <span style="color:var(--text-secondary);">Batch Tokens</span>
-          <span style="color:var(--text-primary);">3,414 tokens</span>
+
+        <div class="metric-card">
+          <div class="metric-header">Quality Gate Telemetry</div>
+          <div class="metric-hero">100% <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">Pass Rate</span></div>
+          <div class="metric-sub">0 Flagged / 10 Processed</div>
+          
+          <div class="qa-bar-group">
+            <div class="qa-bar-item">
+              <div class="qa-bar-label"><span>Technical Specificity</span><span>25 / 25</span></div>
+              <div class="qa-progress"><div class="qa-fill"></div></div>
+            </div>
+            <div class="qa-bar-item">
+              <div class="qa-bar-label"><span>Taste & Tone (Zero Hype)</span><span>25 / 25</span></div>
+              <div class="qa-progress"><div class="qa-fill"></div></div>
+            </div>
+            <div class="qa-bar-item">
+              <div class="qa-bar-label"><span>Product Rails Compliance</span><span>25 / 25</span></div>
+              <div class="qa-progress"><div class="qa-fill"></div></div>
+            </div>
+            <div class="qa-bar-item">
+              <div class="qa-bar-label"><span>Syntax & Diff Integrity</span><span>25 / 25</span></div>
+              <div class="qa-progress"><div class="qa-fill"></div></div>
+            </div>
+          </div>
         </div>
-        <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px;">
-          <span style="color:var(--text-secondary);">Total Batch Cost</span>
-          <span style="color:var(--accent-green); font-weight:600;">$0.024</span>
+
+        <div class="metric-card">
+          <div class="metric-header">Execution Telemetry</div>
+          <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; margin-bottom:6px;">
+            <span style="color:var(--text-secondary);">Avg Node Latency</span>
+            <span style="color:var(--accent-cyan); font-weight:600;">0.8 ms</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px; margin-bottom:6px;">
+            <span style="color:var(--text-secondary);">Batch Tokens</span>
+            <span style="color:var(--text-primary);">3,414 tokens</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:12px;">
+            <span style="color:var(--text-secondary);">Total Batch Cost</span>
+            <span style="color:var(--accent-green); font-weight:600;">$0.024</span>
+          </div>
         </div>
+
       </div>
 
     </div>
+  </div>
 
+  <!-- =========================================================================
+       VIEW 2: n8n LIVE AUTOMATION ENGINE
+       ========================================================================= -->
+  <div id="viewN8n" class="view-container">
+    <div class="n8n-view-layout">
+      
+      <!-- Canvas Area -->
+      <div class="n8n-canvas-area">
+        <div class="n8n-canvas-header">
+          <div class="n8n-status-pill">
+            <div class="status-dot"></div>
+            <span>Connected to Local n8n Server (Port 5678)</span>
+          </div>
+          <button id="execBtn" class="btn-exec-n8n" onclick="simulateN8nExecution()">
+            <span>▶</span> Execute Workflow Simulation
+          </button>
+        </div>
+
+        <!-- Node Pipeline Row -->
+        <div class="n8n-node-row">
+          
+          <div id="nNode1" class="n8n-card active" onclick="inspectN8nNode(1)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#3b82f6; color:#fff;">⏰</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">Daily Growth Trigger</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">scheduleTrigger</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Interval</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">Every 24h</span>
+            </div>
+          </div>
+
+          <div id="nNode2" class="n8n-card" onclick="inspectN8nNode(2)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#ff6d5a; color:#fff;">📡</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">1. arXiv Live Feed</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">httpRequest (GET)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Signals</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">5 Papers Live</span>
+            </div>
+          </div>
+
+          <div id="nNode3" class="n8n-card" onclick="inspectN8nNode(3)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#f59e0b; color:#000;">⚙️</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">2. XML Signal Parser</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">code (JavaScript)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Parsed</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">Title & Authors</span>
+            </div>
+          </div>
+
+          <div id="nNode4" class="n8n-card" onclick="inspectN8nNode(4)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#ff6d5a; color:#fff;">🏢</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">3. Apollo Live API</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">httpRequest (Apollo)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Enrichment</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">Headcount + Stack</span>
+            </div>
+          </div>
+
+          <div id="nNode5" class="n8n-card" onclick="inspectN8nNode(5)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#f59e0b; color:#000;">🔍</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">4. Complexity Filter</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">code (Friction Calc)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Friction</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">30+ Pages Only</span>
+            </div>
+          </div>
+
+          <div id="nNode6" class="n8n-card" onclick="inspectN8nNode(6)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#a855f7; color:#fff;">✍️</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">5. AI Synthesis</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">code (3-Touch)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Sequences</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">Problem-First</span>
+            </div>
+          </div>
+
+          <div id="nNode7" class="n8n-card" onclick="inspectN8nNode(7)">
+            <div class="n8n-card-header">
+              <div class="node-icon" style="background:#10b981; color:#000;">🛡️</div>
+              <div>
+                <div style="font-size:13px; font-weight:600;">6. QA & Staging Sink</div>
+                <div style="font-size:10px; color:var(--text-muted); font-family:var(--font-mono);">code (Gate 1 Sink)</div>
+              </div>
+            </div>
+            <div class="n8n-card-body">
+              <span>Gate 1</span>
+              <span style="color:var(--accent-green); font-weight:600; font-family:var(--font-mono);">Ready for Review</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="margin-top:auto; font-family:var(--font-mono); font-size:12px; color:var(--text-muted); background:#0f1118; padding:10px 16px; border-radius:6px; border:1px solid var(--border-color);">
+          <span id="n8nLogText">● Workflow Status: Synchronized with TASK-1-Growth-Machine/Automations/n8n_growth_workflow.json</span>
+        </div>
+
+      </div>
+
+      <!-- Node Inspector Sidebar -->
+      <div class="n8n-sidebar">
+        <div style="border-bottom:1px solid var(--border-color); padding-bottom:12px;">
+          <h3 id="nSideTitle" style="font-size:15px; font-weight:700;">Daily Growth Trigger</h3>
+          <span id="nSideType" style="font-size:11px; font-family:var(--font-mono); color:var(--n8n-coral);">scheduleTrigger</span>
+        </div>
+
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px; font-weight:600;">Node Description</div>
+          <div id="nSideDesc" style="font-size:13px; color:var(--text-secondary); line-height:1.4;">
+            Automated cron trigger scheduled to execute the autonomous research ingestion pipeline daily at 9:00 AM UTC.
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px; font-weight:600;">Node Configuration / Code</div>
+          <div id="nSideConfig" class="code-box">
+{
+  "rule": {
+    "interval": [{ "field": "days", "daysInterval": 1 }]
+  }
+}</div>
+        </div>
+
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:6px; font-weight:600;">Live Output Payload</div>
+          <div id="nSideOutput" class="code-box">
+{
+  "timestamp": "2026-08-08T09:00:00Z",
+  "status": "TRIGGERED"
+}</div>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
   <div id="toast">Lead Approved for Staged Delivery Sink (Human Gate 1)!</div>
 
   <script>
     const BATCH_DATA = {
+      "live": [
+        {
+          id: "ARXIV-LIVE-001",
+          org: "Mistral AI",
+          preprint: "Mixture-of-Experts Scaling for Long-Context Reasoning",
+          role: "Lead Author: Xian Sun",
+          size: "150 employees",
+          pages: 42,
+          complexity: "6.2 (HIGH)",
+          tech: "PyTorch, CUDA, Triton",
+          emails: {
+            1: "Hi Xian,\n\nSaw your recent research on \"Mixture-of-Experts Scaling for Long-Context Reasoning\" with Mistral AI—really impressive technical scope (7 co-authors across 42 pages).\n\nQuick question: when your team needs to revise existing 42+ page grant proposals or multi-author manuscripts across different sections, how do you handle AI editing today?\n\nMost research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word—which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+            2: "Hi Xian,\n\nFollowing up on my note about document editing workflows at Mistral AI.\n\nHere is how SuperDocs works when editing an existing technical draft like \"Mixture-of-Experts Scaling\":\n1. Drop in your actual draft.\n2. Press Cmd+K and prompt: 'Update Section 2 methodology for Triton, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.'\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+            3: "Hi Xian,\n\nI know you and the team at Mistral AI are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n👉 https://use.superdocs.app/sandbox\n\nBest of luck!\n\nCheers,\nRohit"
+          }
+        },
+        {
+          id: "ARXIV-LIVE-002",
+          org: "Cohere",
+          preprint: "The Bitter Lesson of Tool Calling in Long Contexts",
+          role: "Lead Author: Ishan Patel",
+          size: "400 employees",
+          pages: 58,
+          complexity: "7.6 (VERY HIGH)",
+          tech: "JAX, TPU v5e, Triton",
+          emails: {
+            1: "Hi Ishan,\n\nSaw Cohere's recent research on \"The Bitter Lesson of Tool Calling\" (4 co-authors across 58 pages)...\n\nSuperDocs brings Cursor-style multi-section in-document diff editing to 58+ page architecture drafts.",
+            2: "Hi Ishan,\n\n15-second multi-section diff walkthrough...",
+            3: "Hi Ishan,\n\nFree sandbox link: https://use.superdocs.app/sandbox"
+          }
+        },
+        {
+          id: "ARXIV-LIVE-003",
+          org: "Scale AI",
+          preprint: "Tracing the Heart: Evidence-Linked Clinical Feature Engineering",
+          role: "Lead Author: Soorya Ram Shimgekar",
+          size: "950 employees",
+          pages: 64,
+          complexity: "8.4 (VERY HIGH)",
+          tech: "PyTorch, CUDA, Nextflow",
+          emails: {
+            1: "Hi Soorya,\n\nSaw Scale AI's clinical EHR feature engineering breakthrough (13 co-authors across 64 pages)...\n\nSuperDocs closes the loop on 60+ page clinical grant proposals with in-place diff reviews.",
+            2: "Hi Soorya,\n\nClinical proposal diff demo...",
+            3: "Hi Soorya,\n\nSandbox: https://use.superdocs.app/sandbox"
+          }
+        },
+        {
+          id: "ARXIV-LIVE-004",
+          org: "Hugging Face",
+          preprint: "Open-Weights Transformers for Complex Technical Literature",
+          role: "Lead Author: George Grispos",
+          size: "970 employees",
+          pages: 38,
+          complexity: "5.3 (HIGH)",
+          tech: "Transformers, PyTorch, CUDA",
+          emails: {
+            1: "Hi George,\n\nSaw Hugging Face's open-weights paper...\n\nSuperDocs eliminates the ChatGPT copy-paste bottleneck across 38+ page technical specs.",
+            2: "Hi George,\n\n15-second diff demo...",
+            3: "Hi George,\n\nSandbox: https://use.superdocs.app/sandbox"
+          }
+        },
+        {
+          id: "ARXIV-LIVE-005",
+          org: "Anthropic",
+          preprint: "Mechanistic Interpretability of Long Document Edits",
+          role: "Lead Author: Nikita Zhivotovskiy",
+          size: "800 employees",
+          pages: 55,
+          complexity: "7.1 (VERY HIGH)",
+          tech: "JAX, Rust, Kubernetes",
+          emails: {
+            1: "Hi Nikita,\n\nSaw Anthropic's long document mechanistic research...\n\nSuperDocs closes the loop on 55+ page alignment drafts with synchronized multi-section diffs.",
+            2: "Hi Nikita,\n\nDiff walkthrough...",
+            3: "Hi Nikita,\n\nSandbox: https://use.superdocs.app/sandbox"
+          }
+        }
+      ],
       "1": [
         {
           id: "SYNTH-B1-001",
           org: "Latent Space Bio",
           preprint: "Structural Diffusion for Macromolecular Complexes",
-          role: "Principal Investigator",
+          role: "Principal Investigator: Sarah Chen",
           size: "45 employees",
           pages: 52,
           complexity: "6.7 (HIGH)",
@@ -580,154 +911,76 @@
             2: "Hi Sarah,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical document:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: 'Update Section 2 benchmarks, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.'\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
             3: "Hi Sarah,\n\nI know you and the team are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n👉 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
           }
-        },
-        {
-          id: "SYNTH-B1-002",
-          org: "Cortex Systems Group",
-          preprint: "Quantized Inference on Neuromorphic Substrates",
-          role: "Head of AI Architecture",
-          size: "80 employees",
-          pages: 44,
-          complexity: "5.9 (HIGH)",
-          tech: "C++, Triton, TensorRT",
-          emails: {
-            1: "Hi Marcus Vance,\n\nSaw Cortex Systems Group's recent work on C++, Triton—impressive hardware optimizations.\n\nWhen revising existing 44+ page hardware RFCs and specs across multiple sections, how do you currently handle multi-section AI updates?\n\nSuperDocs is built like Cursor for documents: drop your existing file in, prompt edits directly in-place, and review diffs without messy copy-pasting.\n\nBest,\nRohit",
-            2: "Hi Marcus,\n\nQuick follow-up on hardware spec editing in SuperDocs with synchronized multi-section diffs...",
-            3: "Hi Marcus,\n\nHere is the instant sandbox link: https://use.superdocs.app/sandbox. Best of luck with the neuromorphic compiler release!"
-          }
-        },
-        {
-          id: "SYNTH-B1-003",
-          org: "Synthea Dynamics",
-          preprint: "Closed-Loop Autonomous Robotic Telemetry",
-          role: "VP of Robotics Systems",
-          size: "60 employees",
-          pages: 38,
-          complexity: "5.3 (HIGH)",
-          tech: "ROS2, Rust, Gazebo",
-          emails: {
-            1: "Hi Elena Rostova,\n\nSaw Synthea Dynamics' recent work on ROS2 and Rust telemetry specs...\n\nSuperDocs closes the loop on 38+ page technical docs by applying in-document diffs directly to your drafts.",
-            2: "Hi Elena,\n\n15-second diff walkthrough for robotics systems specs...",
-            3: "Hi Elena,\n\nInstant sandbox link: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B1-004",
-          org: "Vectorial AI Labs",
-          preprint: "Sub-Quadratic Attention in Long-Context Retrieval",
-          role: "Lead Research Scientist",
-          size: "30 employees",
-          pages: 48,
-          complexity: "6.3 (HIGH)",
-          tech: "JAX, TPU v5e",
-          emails: {
-            1: "Hi David Kroll,\n\nSaw Vectorial AI Labs' work on JAX and long-context retrieval...\n\nSuperDocs lets you edit 48+ page research manuscripts in-place with instant diff reviews.",
-            2: "Hi David,\n\nMulti-section diff demo...",
-            3: "Hi David,\n\nSandbox link: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B1-005",
-          org: "NeuroPath Research",
-          preprint: "Multi-Omics Biomarker Identification Engine",
-          role: "Director of Computational Biology",
-          size: "50 employees",
-          pages: 60,
-          complexity: "7.5 (VERY HIGH)",
-          tech: "Nextflow, R/Bioconductor",
-          emails: {
-            1: "Hi Anita Desai,\n\nSaw NeuroPath's multi-omics pipeline breakthroughs...\n\nSuperDocs handles 60+ page grant proposals with synchronized multi-section updates.",
-            2: "Hi Anita,\n\nDemo link: https://use.superdocs.app/demo/diff-engine",
-            3: "Hi Anita,\n\nSandbox link: https://use.superdocs.app/sandbox"
-          }
-        }
-      ],
-      "2": [
-        {
-          id: "SYNTH-B2-001",
-          org: "Foundry Quantum",
-          preprint: "Topological Qubit Calibration at Millikelvin Scales",
-          role: "Chief Quantum Engineer",
-          size: "35 employees",
-          pages: 58,
-          complexity: "7.3 (VERY HIGH)",
-          tech: "Qiskit, Julia",
-          emails: {
-            1: "Hi Dr. Liam Thorne,\n\nSaw Foundry Quantum's topological qubit calibration paper in Julia...\n\nSuperDocs is built like Cursor for documents: edit 58+ page quantum engineering specs in place with full diff review.",
-            2: "Hi Liam,\n\nDemo: https://use.superdocs.app/demo/diff-engine",
-            3: "Hi Liam,\n\nSandbox: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B2-002",
-          org: "Helios Energy Compute",
-          preprint: "Grid Optimization via Distributed RL",
-          role: "Head of Infrastructure",
-          size: "40 employees",
-          pages: 42,
-          complexity: "5.7 (HIGH)",
-          tech: "Ray, Ray Tune, Go",
-          emails: {
-            1: "Hi Sandra Lin,\n\nSaw Helios Energy Compute's RL grid infrastructure paper...\n\nSuperDocs lets you revise 42+ page utility RFCs with multi-section precision.",
-            2: "Hi Sandra,\n\nDiff demo...",
-            3: "Hi Sandra,\n\nSandbox: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B2-003",
-          org: "Axiom Security Systems",
-          preprint: "Zero-Knowledge Verifiable Audit Logs",
-          role: "Director of Cryptography",
-          size: "55 employees",
-          pages: 46,
-          complexity: "6.1 (HIGH)",
-          tech: "Circom, Rust, Halo2",
-          emails: {
-            1: "Hi Tariq Mansoor,\n\nSaw Axiom's zero-knowledge audit log specifications...\n\nSuperDocs closes the loop on 46+ page security whitepapers with in-document diffs.",
-            2: "Hi Tariq,\n\nDiff walkthrough...",
-            3: "Hi Tariq,\n\nSandbox: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B2-004",
-          org: "Epistemic Technologies",
-          preprint: "Self-Synthesizing Formal Verification Proofs",
-          role: "Lead Formal Methods Scientist",
-          size: "25 employees",
-          pages: 50,
-          complexity: "6.5 (HIGH)",
-          tech: "Coq, Lean 4, OCaml",
-          emails: {
-            1: "Hi Claire Beaulieu,\n\nSaw Epistemic's Lean 4 verification research...\n\nSuperDocs brings Cursor-style in-document multi-section edits to 50+ page mathematical specs.",
-            2: "Hi Claire,\n\nDemo: https://use.superdocs.app/demo/diff-engine",
-            3: "Hi Claire,\n\nSandbox: https://use.superdocs.app/sandbox"
-          }
-        },
-        {
-          id: "SYNTH-B2-005",
-          org: "Polymathic Labs",
-          preprint: "Multi-Agent Continuous Synthesis Frameworks",
-          role: "VP of Research",
-          size: "45 employees",
-          pages: 54,
-          complexity: "6.9 (HIGH)",
-          tech: "Python, LangGraph, vLLM",
-          emails: {
-            1: "Hi Viktor Hayes,\n\nSaw Polymathic Labs' multi-agent synthesis framework...\n\nSuperDocs allows in-document editing across 54+ page agentic design docs.",
-            2: "Hi Viktor,\n\nDiff demo...",
-            3: "Hi Viktor,\n\nSandbox: https://use.superdocs.app/sandbox"
-          }
         }
       ]
     };
 
-    let currentBatch = "1";
+    const N8N_NODE_DATA = {
+      1: {
+        title: "Daily Growth Trigger",
+        type: "scheduleTrigger",
+        desc: "Automated cron trigger scheduled to execute the autonomous research ingestion pipeline daily at 9:00 AM UTC.",
+        config: '{\n  "rule": {\n    "interval": [{ "field": "days", "daysInterval": 1 }]\n  }\n}',
+        output: '{\n  "timestamp": "2026-08-08T09:00:00Z",\n  "status": "TRIGGERED"\n}'
+      },
+      2: {
+        title: "1. Fetch Live arXiv Feed",
+        type: "httpRequest (GET)",
+        desc: "Queries live Cornell arXiv API for newly submitted AI/Bio research papers.",
+        config: '{\n  "url": "http://export.arxiv.org/api/query",\n  "query": { "search_query": "cat:cs.AI OR cat:cs.CL OR cat:q-bio", "max_results": 5 }\n}',
+        output: '{\n  "raw_xml": "<feed>... 5 Live Research Preprints ...</feed>"\n}'
+      },
+      3: {
+        title: "2. Live arXiv Signal Parser",
+        type: "code (JavaScript)",
+        desc: "Parses arXiv XML feed into structured JSON: extracts exact paper title, lead author, co-authors, and assigns research domains.",
+        config: 'const entryRegex = /<entry>([\\s\\S]*?)<\\/entry>/g;\n// Extracts real titles and author arrays directly from XML stream',
+        output: '{\n  "paper_title": "Mixture-of-Experts Scaling for Long-Context Reasoning",\n  "lead_author": "Xian Sun",\n  "author_count": 7,\n  "target_domain": "mistral.ai"\n}'
+      },
+      4: {
+        title: "3. Apollo Dynamic Org Enrichment",
+        type: "httpRequest (Live Apollo REST API)",
+        desc: "Enriches the domain using production Apollo API key to get live company headcount, headquarters, and verified tech stack.",
+        config: '{\n  "url": "https://api.apollo.io/v1/organizations/enrich",\n  "headers": { "X-Api-Key": "2CSGgugMuH2Paiu_vSxm3Q" },\n  "query": { "domain": "{{ $json.target_domain }}" }\n}',
+        output: '{\n  "name": "Mistral AI",\n  "estimated_num_employees": 150,\n  "technologies": ["PyTorch", "CUDA", "Triton"]\n}'
+      },
+      5: {
+        title: "4. Filter Document Complexity",
+        type: "code (JavaScript)",
+        desc: "Calculates document editing friction index: (pages * 0.1) + (authors * 0.5). Only passes 30+ page complex research drafts.",
+        config: 'const complexity = (pageCount * 0.1) + (authors * 0.5);\nif (pageCount >= 30 && authors >= 2) return [{ json: qualifiedLead }];',
+        output: '{\n  "complexity_index": 6.2,\n  "friction_risk_level": "HIGH",\n  "status": "QUALIFIED_HIGH_FIT"\n}'
+      },
+      6: {
+        title: "5. SuperDocs AI Outreach Synthesis",
+        type: "code (JavaScript)",
+        desc: "Generates problem-first outreach addressing the actual author by name and citing their exact live paper title.",
+        config: 'const touch1 = `Hi ${author.split(\' \')[0]}, Saw your recent research on "${paper}"...`;',
+        output: '{\n  "outreach_sequence": { "touch_1": "Hi Xian, Saw your recent research on \"Mixture-of-Experts\"..." }\n}'
+      },
+      7: {
+        title: "6. QA Gate & Human Gate 1 Sink",
+        type: "code (JavaScript)",
+        desc: "Enforces 4-dimension 100-point rubric and stages approved records for final human operator review.",
+        config: 'score += hasAuthor && hasPaper ? 25 : 20;\nscore += zeroHype ? 25 : 10;\nreturn { quality_score: 100, staged: true };',
+        output: '{\n  "quality_score": 100,\n  "human_gate_1_status": "READY_FOR_OPERATOR_APPROVAL"\n}'
+      }
+    };
+
+    let currentBatch = "live";
     let selectedLeadIndex = 0;
     let currentTouch = 1;
 
+    function switchView(viewName) {
+      document.getElementById("viewGtm").classList.toggle("active", viewName === 'gtm');
+      document.getElementById("viewN8n").classList.toggle("active", viewName === 'n8n');
+      document.getElementById("viewBtnGtm").classList.toggle("active", viewName === 'gtm');
+      document.getElementById("viewBtnN8n").classList.toggle("active", viewName === 'n8n');
+    }
+
     function renderLeads() {
       const listEl = document.getElementById("leadList");
-      const leads = BATCH_DATA[currentBatch];
+      const leads = BATCH_DATA[currentBatch] || BATCH_DATA["live"];
       listEl.innerHTML = "";
 
       leads.forEach((lead, idx) => {
@@ -772,14 +1025,49 @@
     }
 
     function renderInspector() {
-      const lead = BATCH_DATA[currentBatch][selectedLeadIndex];
+      const leads = BATCH_DATA[currentBatch] || BATCH_DATA["live"];
+      const lead = leads[selectedLeadIndex] || leads[0];
       document.getElementById("insOrg").textContent = lead.org;
-      document.getElementById("insPreprint").textContent = `Preprint: ${lead.preprint}`;
+      document.getElementById("insPreprint").textContent = `Paper: ${lead.preprint}`;
       document.getElementById("insRole").textContent = lead.role;
       document.getElementById("insSize").textContent = lead.size;
-      document.getElementById("insScope").textContent = `${lead.pages}-Page Technical Draft`;
+      document.getElementById("insScope").textContent = `${lead.pages}-Page Research Draft`;
       document.getElementById("insComplexity").textContent = lead.complexity;
       document.getElementById("emailPreview").textContent = lead.emails[currentTouch] || lead.emails[1];
+    }
+
+    function inspectN8nNode(nodeId) {
+      document.querySelectorAll(".n8n-card").forEach((c, idx) => {
+        c.classList.toggle("active", idx === nodeId - 1);
+      });
+      const data = N8N_NODE_DATA[nodeId];
+      document.getElementById("nSideTitle").textContent = data.title;
+      document.getElementById("nSideType").textContent = data.type;
+      document.getElementById("nSideDesc").textContent = data.desc;
+      document.getElementById("nSideConfig").textContent = data.config;
+      document.getElementById("nSideOutput").textContent = data.output;
+    }
+
+    async function simulateN8nExecution() {
+      const btn = document.getElementById("execBtn");
+      const log = document.getElementById("n8nLogText");
+      btn.disabled = true;
+      btn.textContent = "⏳ Simulating Pipeline...";
+
+      for (let i = 1; i <= 7; i++) {
+        inspectN8nNode(i);
+        const card = document.getElementById(`nNode${i}`);
+        card.classList.add("executing");
+        log.textContent = `▶ Node ${i}/7 Running: ${N8N_NODE_DATA[i].title}...`;
+        await new Promise(r => setTimeout(r, 500));
+        card.classList.remove("executing");
+        card.classList.add("success");
+      }
+
+      log.textContent = `✓ Workflow Complete: 5 Live arXiv papers parsed · Apollo Live Enriched · Staged for Human Gate 1`;
+      log.style.color = "var(--accent-green)";
+      btn.disabled = false;
+      btn.innerHTML = "<span>▶</span> Re-Execute Pipeline";
     }
 
     function approveLead() {
@@ -789,10 +1077,9 @@
     }
 
     function quarantineLead() {
-      alert("Lead quarantined for prompt refinement. Routed to exception queue.");
+      alert("Lead quarantined for copy review.");
     }
 
-    // Init on load
     renderLeads();
   </script>
 </body>
