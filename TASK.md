@@ -41,8 +41,17 @@ This repository is organized to demonstrate end-to-end agency, taste, technical 
 To run the pipeline locally:
 ```powershell
 # From the repository root:
+# 1. Run Python Growth Engine:
 cd TASK-1-Growth-Machine/Machine
 python run_machine.py --batch 1
 python run_machine.py --batch 2
+
+# 2. Run n8n Automation Pipeline Simulation:
+cd ../Automations
+python n8n_runner.py
+
+# 3. View Interactive UIs in Browser:
+# - GTM Operations Cockpit: TASK-1-Growth-Machine/Dashboard/index.html
+# - Dynamic Programmatic Landing Page: TASK-1-Growth-Machine/Landing_Page/index.html
 ```
 All outputs and execution logs are automatically written to `TASK-1-Growth-Machine/Outputs/`.

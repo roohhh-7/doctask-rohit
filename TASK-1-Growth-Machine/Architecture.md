@@ -61,8 +61,17 @@ This document details the modular software architecture of the **SuperDocs Auton
 - Provides standard command-line flags (`--batch 1`, `--batch 2`, `--output-dir`).
 - Executes end-to-end processing without requiring manual file edits or runtime patches between batches.
 
-### 3. `config.json` (Declarative Configuration)
-- Holds model hyper-parameters, scoring thresholds, evaluation rubrics, prompt templates, and output directory paths.
+### 3. `Automations/` (n8n & Apollo Orchestration Suite)
+- **`n8n_growth_workflow.json`**: An importable, valid n8n JSON workflow file connecting arXiv signal ingestion, Apollo REST enrichment, complexity scoring, AI synthesis, and automated QA gating.
+- **`Apollo_API_Spec.json`**: Complete REST API endpoint schemas (`/v1/organizations/enrich` and `/v1/people/match`) and target filter queries.
+- **`n8n_Setup_Guide.md`**: Complete step-by-step visual deployment and configuration guide.
+- **`n8n_runner.py`**: Runnable CLI testing harness simulating the full n8n node execution graph.
+
+### 4. `Dashboard/` (GTM Operations Cockpit)
+- **`index.html`**: A dark-mode, responsive GTM command center allowing growth operators to inspect enriched accounts, review 3-touch campaigns, execute **Human Gate 1** approvals, and monitor real-time pipeline telemetry.
+
+### 5. `Landing_Page/` (Dynamic Programmatic Landing Page)
+- **`index.html`**: A high-converting programmatic landing page featuring a live ICP segment switcher (Bio-AI Labs, Engineering RFCs, Open Research Communities, and custom company personalization).
 
 ---
 

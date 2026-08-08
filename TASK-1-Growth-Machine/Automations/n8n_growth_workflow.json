@@ -1,0 +1,206 @@
+{
+  "name": "SuperDocs Autonomous Growth Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "node-1-schedule-trigger",
+      "name": "Daily Growth Trigger (9 AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://export.arxiv.org/api/query",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "search_query",
+              "value": "cat:cs.AI OR cat:q-bio"
+            },
+            {
+              "name": "max_results",
+              "value": "10"
+            },
+            {
+              "name": "sortBy",
+              "value": "submittedDate"
+            },
+            {
+              "name": "sortOrder",
+              "value": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-2-arxiv-signal-fetch",
+      "name": "1. Ingest Public Research Signals",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/v1/organizations/enrich",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "={{ $env.APOLLO_API_KEY || 'MOCK_APOLLO_KEY' }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"domain\": \"{{ $json.organization_domain || 'latentspacebio.com' }}\",\n  \"target_roles\": [\"Principal Investigator\", \"Head of AI\", \"Director of Machine Learning\", \"Chief Scientist\"],\n  \"min_employees\": 10,\n  \"max_employees\": 250\n}",
+        "options": {}
+      },
+      "id": "node-3-apollo-enrichment",
+      "name": "2. Apollo Firmographic & Role Enrichment",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Document Complexity & Lead Qualification Scoring Node\nconst items = $input.all();\nconst qualifiedLeads = [];\n\nfor (const item of items) {\n  const data = item.json;\n  const pageCount = data.document_page_count || 45;\n  const contributors = data.contributor_count || 4;\n  \n  // Calculate Document Friction Index\n  // Longer documents with multiple contributors have high editing friction\n  const complexityIndex = Number(((pageCount * 0.1) + (contributors * 0.5)).toFixed(1));\n  const isHighComplexity = pageCount >= 25 && contributors >= 2;\n  \n  if (isHighComplexity) {\n    qualifiedLeads.push({\n      json: {\n        ...data,\n        complexity_index: complexityIndex,\n        friction_risk_level: pageCount > 40 ? 'HIGH' : 'MEDIUM',\n        qualification_status: 'QUALIFIED_HIGH_FIT'\n      }\n    });\n  }\n}\n\nreturn qualifiedLeads;"
+      },
+      "id": "node-4-complexity-filter",
+      "name": "3. Filter Document Complexity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "prompt": "=Generate a respectful, progressive 3-touch problem-first outreach sequence and a SuperDocs in-document refactor prompt for:\nOrganization: {{ $json.organization_name }}\nLead Role: {{ $json.recipient_role }}\nDocument Scope: {{ $json.active_document_type }} ({{ $json.document_page_count }} Pages)\nCore Tech Stack: {{ $json.core_parameters.model_type }}\n\nStrict Rules:\n1. Never claim to have scraped their private draft.\n2. Open with the shared pain point: editing existing 30+ page documents with ChatGPT requires messy copy-pasting into Word, breaking tables and citations.\n3. Position SuperDocs as 'Cursor for documents' (in-document multi-section editing with native red/green diff review).\n4. Include an in-document prompt snippet and diff preview.",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "node-5-superdocs-synthesis",
+      "name": "4. SuperDocs AI Outreach Synthesis",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Automated 4-Dimension Quality Gate Node\nconst items = $input.all();\nconst outputResults = [];\nconst MIN_PASS_SCORE = 85.0;\n\nfor (const item of items) {\n  const data = item.json;\n  const text = data.generated_content || JSON.stringify(data);\n  const org = data.organization_name || '';\n  \n  let score = 0;\n  const breakdown = {};\n  \n  // 1. Technical Specificity (0-25)\n  const hasOrg = text.toLowerCase().includes(org.toLowerCase());\n  breakdown.technical_specificity = hasOrg ? 25 : 15;\n  score += breakdown.technical_specificity;\n  \n  // 2. Taste & Tone (0-25) - Penalize generic sales hype\n  const hasHype = /best-in-class|revolutionary|game-changing|act now/i.test(text);\n  breakdown.taste_and_tone = hasHype ? 10 : 25;\n  score += breakdown.taste_and_tone;\n  \n  // 3. Rails Compliance (0-25) - No spreadsheet outputs, strict privacy\n  const violatesSpreadsheetRail = text.toLowerCase().includes('spreadsheet output');\n  breakdown.rails_compliance = violatesSpreadsheetRail ? 0 : 25;\n  score += breakdown.rails_compliance;\n  \n  // 4. Syntax & Diff Integrity (0-25)\n  const hasDiffOrTable = text.includes('```diff') || text.includes('|');\n  breakdown.syntax_integrity = hasDiffOrTable ? 25 : 15;\n  score += breakdown.syntax_integrity;\n  \n  const passesGate = score >= MIN_PASS_SCORE;\n  \n  outputResults.push({\n    json: {\n      ...data,\n      quality_score: score,\n      score_breakdown: breakdown,\n      gate_status: passesGate ? 'PASSED_QA_GATE' : 'QUARANTINED',\n      staged_for_human_gate_1: passesGate\n    }\n  });\n}\n\nreturn outputResults;"
+      },
+      "id": "node-6-quality-gate",
+      "name": "5. Automated Quality Gate Evaluator",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1340, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://internal-test-sink.local/v1/gtm/staging-sink",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"batch_id\": \"N8N-BATCH-{{ $now.toFormat('yyyyLLdd-HHmmss') }}\",\n  \"target_id\": \"{{ $json.target_id }}\",\n  \"organization\": \"{{ $json.organization_name }}\",\n  \"recipient_role\": \"{{ $json.recipient_role }}\",\n  \"quality_score\": {{ $json.quality_score }},\n  \"gate_status\": \"{{ $json.gate_status }}\",\n  \"staged_for_review\": true,\n  \"timestamp\": \"{{ $now.toISO() }}\"\n}",
+        "options": {}
+      },
+      "id": "node-7-staging-sink",
+      "name": "6. Stage for Human Gate 1 Review",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1560, 300]
+    }
+  ],
+  "connections": {
+    "node-1-schedule-trigger": {
+      "main": [
+        [
+          {
+            "node": "node-2-arxiv-signal-fetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node-2-arxiv-signal-fetch": {
+      "main": [
+        [
+          {
+            "node": "node-3-apollo-enrichment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node-3-apollo-enrichment": {
+      "main": [
+        [
+          {
+            "node": "node-4-complexity-filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node-4-complexity-filter": {
+      "main": [
+        [
+          {
+            "node": "node-5-superdocs-synthesis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node-5-superdocs-synthesis": {
+      "main": [
+        [
+          {
+            "node": "node-6-quality-gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "node-6-quality-gate": {
+      "main": [
+        [
+          {
+            "node": "node-7-staging-sink",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

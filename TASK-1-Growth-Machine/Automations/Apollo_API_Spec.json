@@ -1,0 +1,82 @@
+{
+  "integration_name": "Apollo REST API Enrichment Engine",
+  "version": "v1",
+  "base_url": "https://api.apollo.io/v1",
+  "auth_type": "api_key_header",
+  "header_key": "X-Api-Key",
+  "rate_limits": {
+    "requests_per_minute": 100,
+    "daily_credit_allowance_free_tier": 50,
+    "retry_policy": "exponential_backoff_3_attempts"
+  },
+  "endpoints": [
+    {
+      "name": "Organization Enrichment",
+      "method": "POST",
+      "path": "/organizations/enrich",
+      "description": "Enriches target company domain with employee headcount, funding stage, industry tags, and verified technology stack.",
+      "request_schema": {
+        "domain": "string (e.g. latentspacebio.com)"
+      },
+      "sample_request": {
+        "domain": "latentspacebio.com"
+      },
+      "sample_response": {
+        "organization": {
+          "id": "org_883192",
+          "name": "Latent Space Bio",
+          "website_url": "https://latentspacebio.com",
+          "estimated_num_employees": 45,
+          "industries": ["Biotechnology", "Artificial Intelligence", "Life Sciences"],
+          "technologies": ["PyTorch", "AWS", "NVIDIA CUDA", "Next.js"],
+          "latest_funding_round": "Series A",
+          "latest_funding_amount_usd": 12000000
+        }
+      }
+    },
+    {
+      "name": "People Match & Role Discovery",
+      "method": "POST",
+      "path": "/people/match",
+      "description": "Discovers verified technical leadership roles (PI, Head of AI, Lead Scientist) responsible for 30+ page documentation and proposals.",
+      "request_schema": {
+        "organization_id": "string",
+        "domain": "string",
+        "titles": "array of strings"
+      },
+      "target_role_filters": [
+        "Principal Investigator",
+        "Head of AI",
+        "Director of Machine Learning",
+        "Chief Scientist",
+        "Lead Computational Biologist",
+        "VP of Technical Operations"
+      ],
+      "sample_request": {
+        "domain": "latentspacebio.com",
+        "titles": ["Principal Investigator", "Head of AI", "Chief Scientist"]
+      },
+      "sample_response": {
+        "person": {
+          "id": "pers_99412",
+          "first_name": "Sarah",
+          "last_name": "Chen",
+          "title": "Principal Investigator & Chief Scientist",
+          "department": "Research & Machine Learning",
+          "seniority": "director",
+          "email_status": "verified",
+          "sanitized_test_email": "sarah.chen@latentspacebio.internal-test-sink.local"
+        }
+      }
+    }
+  ],
+  "pipeline_routing_rules": {
+    "qualification_criteria": {
+      "min_headcount": 10,
+      "max_headcount": 250,
+      "industry_whitelist": ["Biotechnology", "Artificial Intelligence", "Software", "Defense"],
+      "must_have_verified_role": true
+    },
+    "routing_action": "Pass qualified accounts to n8n Complexity & Synthesis Node"
+  }
+}
