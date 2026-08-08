@@ -1,0 +1,114 @@
+{
+  "run_timestamp": "2026-08-08T03:52:05.986158+00:00",
+  "total_signals_ingested": 5,
+  "qualified_leads": 5,
+  "passed_qa_gate": 5,
+  "total_latency_seconds": 0.18,
+  "results": [
+    {
+      "target_id": "ARXIV-LIVE-001",
+      "organization": "Neural Systems Lab",
+      "role": "Principal Investigator",
+      "pages": 55,
+      "complexity_index": 9.0,
+      "outreach_pack": {
+        "touch_1_intro": "Hi there,\n\nSaw Neural Systems Lab's recent work on \"Learning When to Trust via Selective Context Preference Opti...\"\u2014really impressive technical scope.\n\nQuick question: when your team needs to revise existing 55+ page grant proposals or technical specifications across multiple sections, how do you handle AI editing today?\n\nMost engineering and research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word\u2014which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+        "touch_2_demo": "Hi there,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical draft:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: \"Update Section 2 methodology parameters, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.\"\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+        "touch_3_sandbox": "Hi there,\n\nI know you and the team at Neural Systems Lab are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n\ud83d\udc49 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
+      },
+      "quality_score": 100,
+      "score_breakdown": {
+        "specificity": 25,
+        "tone": 25,
+        "rails": 25,
+        "syntax": 25
+      },
+      "status": "PASSED_QA_GATE",
+      "staged_for_human_gate_1": true
+    },
+    {
+      "target_id": "ARXIV-LIVE-002",
+      "organization": "Neural Systems Lab",
+      "role": "Principal Investigator",
+      "pages": 85,
+      "complexity_index": 15.0,
+      "outreach_pack": {
+        "touch_1_intro": "Hi there,\n\nSaw Neural Systems Lab's recent work on \"Tracing the Heart: An Evidence-Linked Pipeline for Heart-Fai...\"\u2014really impressive technical scope.\n\nQuick question: when your team needs to revise existing 85+ page grant proposals or technical specifications across multiple sections, how do you handle AI editing today?\n\nMost engineering and research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word\u2014which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+        "touch_2_demo": "Hi there,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical draft:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: \"Update Section 2 methodology parameters, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.\"\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+        "touch_3_sandbox": "Hi there,\n\nI know you and the team at Neural Systems Lab are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n\ud83d\udc49 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
+      },
+      "quality_score": 100,
+      "score_breakdown": {
+        "specificity": 25,
+        "tone": 25,
+        "rails": 25,
+        "syntax": 25
+      },
+      "status": "PASSED_QA_GATE",
+      "staged_for_human_gate_1": true
+    },
+    {
+      "target_id": "ARXIV-LIVE-003",
+      "organization": "Autonomous Dynamics Lab",
+      "role": "Lead Author / Research Scientist",
+      "pages": 30,
+      "complexity_index": 4.0,
+      "outreach_pack": {
+        "touch_1_intro": "Hi there,\n\nSaw Autonomous Dynamics Lab's recent work on \"Investigating Artificial Intelligence Digital Sovereignty in...\"\u2014really impressive technical scope.\n\nQuick question: when your team needs to revise existing 30+ page grant proposals or technical specifications across multiple sections, how do you handle AI editing today?\n\nMost engineering and research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word\u2014which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+        "touch_2_demo": "Hi there,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical draft:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: \"Update Section 2 methodology parameters, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.\"\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+        "touch_3_sandbox": "Hi there,\n\nI know you and the team at Autonomous Dynamics Lab are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n\ud83d\udc49 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
+      },
+      "quality_score": 100,
+      "score_breakdown": {
+        "specificity": 25,
+        "tone": 25,
+        "rails": 25,
+        "syntax": 25
+      },
+      "status": "PASSED_QA_GATE",
+      "staged_for_human_gate_1": true
+    },
+    {
+      "target_id": "ARXIV-LIVE-004",
+      "organization": "DeepTech Research Lab",
+      "role": "Lead Author / Research Scientist",
+      "pages": 35,
+      "complexity_index": 5.0,
+      "outreach_pack": {
+        "touch_1_intro": "Hi there,\n\nSaw DeepTech Research Lab's recent work on \"An Optimal Agnostic PAC Algorithm...\"\u2014really impressive technical scope.\n\nQuick question: when your team needs to revise existing 35+ page grant proposals or technical specifications across multiple sections, how do you handle AI editing today?\n\nMost engineering and research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word\u2014which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+        "touch_2_demo": "Hi there,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical draft:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: \"Update Section 2 methodology parameters, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.\"\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+        "touch_3_sandbox": "Hi there,\n\nI know you and the team at DeepTech Research Lab are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n\ud83d\udc49 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
+      },
+      "quality_score": 100,
+      "score_breakdown": {
+        "specificity": 25,
+        "tone": 25,
+        "rails": 25,
+        "syntax": 25
+      },
+      "status": "PASSED_QA_GATE",
+      "staged_for_human_gate_1": true
+    },
+    {
+      "target_id": "ARXIV-LIVE-005",
+      "organization": "Neural Systems Lab",
+      "role": "Lead Author / Research Scientist",
+      "pages": 35,
+      "complexity_index": 5.0,
+      "outreach_pack": {
+        "touch_1_intro": "Hi there,\n\nSaw Neural Systems Lab's recent work on \"AV-AIVAT: 74x Cheaper Agent Evaluation with Certified Anytim...\"\u2014really impressive technical scope.\n\nQuick question: when your team needs to revise existing 35+ page grant proposals or technical specifications across multiple sections, how do you handle AI editing today?\n\nMost engineering and research leads hit a wall with ChatGPT/Claude because they have to copy text out, prompt the chat, and manually paste snippets back across 10 different pages in Word\u2014which breaks tables and corrupts citations.\n\nWe built SuperDocs to close that loop (think 'Cursor for documents'): you drop your existing file in, prompt edits directly across multiple sections, and review native red/green diffs before accepting.\n\nCurious if this is a friction point your team experiences during documentation cycles?\n\nBest,\nRohit\nGrowth Engineer | SuperDocs",
+        "touch_2_demo": "Hi there,\n\nFollowing up on my note about document editing workflows.\n\nHere is how SuperDocs works when editing an existing technical draft:\n1. Drop in your actual .docx or .md draft.\n2. Press Cmd+K and prompt: \"Update Section 2 methodology parameters, recalculate Section 5 compute timeline, and synchronize the budget table in Section 7.\"\n3. SuperDocs edits all three sections simultaneously with native red/green diffs.\n\nHere is a 15-second visual demo: https://use.superdocs.app/demo/diff-engine\n\nBest,\nRohit",
+        "touch_3_sandbox": "Hi there,\n\nI know you and the team at Neural Systems Lab are busy building, so I won't clutter your inbox further.\n\nIf you ever want to test SuperDocs on an existing rough draft before your next major deadline, here is a free, instant sandbox link:\n\ud83d\udc49 https://use.superdocs.app/sandbox\n\nWishing you and the team continued success!\n\nCheers,\nRohit"
+      },
+      "quality_score": 100,
+      "score_breakdown": {
+        "specificity": 25,
+        "tone": 25,
+        "rails": 25,
+        "syntax": 25
+      },
+      "status": "PASSED_QA_GATE",
+      "staged_for_human_gate_1": true
+    }
+  ]
+}
